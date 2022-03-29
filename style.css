@@ -1,0 +1,18 @@
+body {
+	background-color: ivory;
+	padding:20px;
+}
+img {
+	border:1px solid black;
+}
+    
+#wrapper {
+    position:relative;
+    width:200px;
+    height:200px;
+}
+#canvasTop,#canvasBottom {
+    position:absolute; top:0px; left:0px;
+    width:200px;
+    height:200px;
+}
