@@ -116,3 +116,43 @@ function drawHelper(e){
     ctx.fillStyle = "rgb(200,0,0)";
     ctx.strokeRect(newX, newY, size, size);
 }
+
+// Upload file
+
+var btn = document.getElementById("photo-button");
+var img = document.getElementById("photo-image");
+var setImg = document.getElementById("set-image");
+btn.addEventListener("change", setImage);
+setImg.addEventListener("click", setImage2);
+
+function setImage(e) {
+  if (this.files && this.files[0]) {
+    var file = this.files[0];
+    var img = safeImage(file);
+    if (img) {
+      var reader = new FileReader();
+      reader.onload = loadImage;
+      reader.readAsDataURL(this.files[0]);
+    } else {
+      alert("Not an accepted file type");
+    }
+  }
+}
+
+function safeImage(file) {
+  var acceptedTypes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
+  for (var i = 0; i < acceptedTypes.length; i++) {
+    if (file.type === acceptedTypes[i]) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function setImage2() {
+  btn.click();
+}
+
+function loadImage(e) {
+  img.setAttribute("src", e.target.result);
+}

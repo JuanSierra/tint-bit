@@ -5,13 +5,78 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css">
+	<link rel="stylesheet" href="https://unpkg.com/concrete.css@2.0.3/concrete.css">
+	<link rel="stylesheet" href="https://unpkg.com/pyloncss@0.1.1/css/pylon.css">
     <title>Vite App</title>
   </head>
   <body>
+  <hstack spacing=s>
+	<vstack spacing=m style="max-width:200px;">
+		<button>Select Image</button>
+		
+	   <hstack spacing=m> 
+		<span class="opcion-radio">
+		  <input type="radio" id="A" name="t" checked>
+		  <label for="A">1x</label>
+		</span>
+		<span class="opcion-radio">
+		  <input type="radio" id="B" name="t"><label for="B">2x</label>
+		</span>
+		<span class="opcion-radio">
+		  <input type="radio" id="C" name="t">
+		  <label for="C">3x</label>
+		</span>
+	  </hstack>
+		
+		<select name="op" id="op">
+		  <option value="Option 1">Palette 1</option>
+		  <option value="Option 2">Palette 2</option>
+		  <option value="Option 3">Palette 3</option>
+		  <option value="Option 4">Palette 4</option>
+		</select>
+		
+		<table>
+		  <tbody>
+			<tr>
+			  <td><div></div></td>
+			  <td><div></div></td>
+			</tr>
+			<tr>
+			  <td><div></div></td>
+			  <td><div></div></td>
+			</tr>
+				<tr>
+			  <td><div></div></td>
+			  <td><div></div></td>
+			</tr>
+				<tr>
+			  <td><div></div></td>
+			  <td><div></div></td>
+			</tr>
+		  </tbody>
+		</table>
+		<spacer></spacer>
+		<label class="container">With scaling
+		  <input type="checkbox">
+		  <span class="checkmark"></span>
+		</label>
+		<button>Download</button>
+	  </vstack>
+	  <vstack>
+		<image stretch src='https://loremflickr.com/g/640/360/dog'></image>
+	  </vstack>
+	</hstack>
+
+	<button id="set-image">Set Image</button>
+	<input id="photo-button" type="file" />
+	<img id="photo-image" />
+	
     <p>Original Image</p>
-	<img id="image0" width=200 height=200/>
+	<img class="border" id="image0" width=200 height=200/>
 	<br/>
 	<p>Red recolored Green Image</p>
+
 	<div id="wrapper">
 		<canvas id="canvasBottom" width=200 height=200></canvas>
 		<canvas id="canvasTop" width=200 height=200></canvas>

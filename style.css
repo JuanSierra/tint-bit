@@ -1,10 +1,12 @@
 body {
 	background-color: ivory;
-	padding:20px;
+	padding:10px;
 }
-img {
+
+.border {
 	border:1px solid black;
 }
+   
     
 #wrapper {
     position:relative;
@@ -16,3 +18,128 @@ img {
     width:200px;
     height:200px;
 }
+#photo-button {
+  position: absolute;
+  left:-9999px;
+}
+
+
+
+div{
+  width:30px;
+  height:30px;
+  background-color: #ccc;
+  margin: 0 auto;
+}
+td {
+}
+
+/*w3c custom check*/
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+    font-weight: normal;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border: 2px solid black;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: black;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.container .checkmark:after {
+  left: 9px;
+  top: 3px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* radio */
+.opcion-radio {
+  display: inline-block;
+  margin-right: 18px;
+}
+
+.opcion-radio input {
+  margin-right: 5px;
+}
+
+.opcion-radio input[type=radio] {
+    position: absolute;
+    opacity: 0;
+}
+
+.opcion-radio input[type=radio] + label:before {
+    content: '';
+    background: white;
+    border-radius: 60%;
+    border: 2px solid black;
+    display: inline-block;
+    width: 1.2em;
+    height: 1.2em;
+    position: relative;
+    top: -.2em;
+    margin-right: .5em;
+    vertical-align: top;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+.opcion-radio input[type=radio]:checked + label:before {
+    background-color: black;
+    box-shadow: inset 0 0 0 4px white;
+}
+.opcion-radio label {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 32px;
+	font-weight: normal;
+	font-size:0.9em;
+}
+
