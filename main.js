@@ -156,3 +156,66 @@ function setImage2() {
 function loadImage(e) {
   img.setAttribute("src", e.target.result);
 }
+
+
+// Dialog
+
+const modal = document.querySelector('dialog');
+
+function showDialog(){
+  const closeButton = document.getElementById('close');
+
+  // close modal on backdrop click
+  modal.addEventListener('click', (event) => {
+    if (event.target === modal) {
+      modal.close('cancelled');
+    }
+  });
+  
+  // makes modal appear (adds `open` attribute)
+  if(modal.showModal){
+    modal.showModal();
+    modal.addEventListener('close', function onClose() {
+      //outputBox.value = modal.returnValue;
+    });
+  } else {
+  // polyfil
+    modal.returnValue = 'false';
+    modal.setAttribute('open', 'open');
+    const closeButton = document.getElementById('close');
+    if(closeButton){
+      closeButton.addEventListener('click', function onClose() {
+        modal.returnValue = 'false';
+        //outputBox.value = modal.returnValue;
+        modal.removeAttribute('open');
+      });
+    }
+    const okButton = document.getElementById('ok');
+    if(okButton){
+      okButton.addEventListener('click', function onConfirm() {
+        modal.returnValue = 'true';
+        //outputBox.value = modal.returnValue;
+        modal.removeAttribute('open');
+      });
+    }
+  }
+
+  setTimeout(function(){
+	  // hides modal (removes `open` attribute)
+    if(modal.close){
+	    modal.close('false');
+    } else {
+      modal.removeAttribute('open');
+    }
+	  console.log(modal.returnValue); // logs `Accepted`
+  },
+  60000);
+}
+
+const showDialogButton = document.getElementById('select-image');
+if(showDialogButton){
+  showDialogButton.addEventListener('click', function onClose() {
+    showDialog();
+  });
+}
+

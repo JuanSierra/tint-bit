@@ -13,7 +13,7 @@
   <body>
   <hstack spacing=s>
 	<vstack spacing=m style="max-width:200px;">
-		<button>Select Image</button>
+		<button id="select-image">Select Image</button>
 		
 	   <hstack spacing=m> 
 		<span class="opcion-radio">
@@ -67,6 +67,24 @@
 		<image stretch src='https://loremflickr.com/g/640/360/dog'></image>
 	  </vstack>
 	</hstack>
+
+<dialog id="demo-modal">
+
+  <h3 class="modal-header">Tile Settings</h3>
+  <div class="modal-body">
+	<label for="size">Tile Size</label>
+    <hstack><input type="text" name="size" id="size" size="4" maxlength="4" value="32"><span>&nbsp;px</span></hstack>
+	
+	<label for="border">Border Width</label>
+	<hstack><input type="text" name="border" id="border" size="4" maxlength="4" value="0"><span>&nbsp;px</span></hstack>
+
+  </div>
+  <footer class="modal-footer">
+    <button id="ok" type="button" value="true">OK</button>
+  </footer>
+
+</dialog>
+
 
 	<button id="set-image">Set Image</button>
 	<input id="photo-button" type="file" />

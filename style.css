@@ -19,18 +19,17 @@ body {
     height:200px;
 }
 #photo-button {
-  position: absolute;
-  left:-9999px;
+	position: absolute;
+	left:-9999px;
 }
 
-
-
-div{
+td>div{
   width:30px;
   height:30px;
   background-color: #ccc;
   margin: 0 auto;
 }
+
 td {
 }
 
@@ -143,3 +142,36 @@ td {
 	font-size:0.9em;
 }
 
+
+/* Dialog */
+dialog {
+  padding: 0;
+  border: 2px solid #333;
+  font-family: 'Segoe UI', Helvetica, Verdana, Arial, Sans-Serif, sans;
+  width:300px;
+}
+
+dialog::backdrop {
+  /* make the backdrop a semi-transparent black */
+  background-color: rgba(0, 0, 0, 0);
+}
+dialog + .backdrop {
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.modal-header{
+  padding: 0px 20px 0px 20px;
+}
+.modal-body{
+  border-top: 1px solid #333;
+  padding: 5px 20px 0 20px;
+
+}
+.modal-footer{
+  padding: 10px 10px 10px 10px;
+  border-top: 1px solid #333;
+  background: #efefef;
+}
+.modal-footer button{
+  padding: 0 20px 0 20px;
+}
