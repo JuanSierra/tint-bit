@@ -1,14 +1,15 @@
-let image0 = document.getElementById("image0");
-let url = 'https://loremflickr.com/g/640/360/dog';
-image0.src = url + '?' + new Date().getTime();
-image0.setAttribute('crossOrigin', '');
+const scale = 5;
+let image0 = document.getElementById("img");
+//let url = 'https://loremflickr.com/g/640/360/dog';
+//image0.src = url + '?' + new Date().getTime();
+//image0.setAttribute('crossOrigin', '');
 
 let image = new Image();
 image.crossOrigin = "Anonymous";
 image.onload = function () {
     recolorImage(image, 255, 0, 0, 0, 255, 0);
 }
-image.src = image0.src;
+//image.src = image0.src;
 
 function calcLuminance(rgb)
  {
@@ -36,15 +37,15 @@ let fullColorHex = function(r,g,b) {
 
 function recolorImage(img, oldRed, oldGreen, oldBlue, newRed, newGreen, newBlue) {
     let c = document.getElementById("canvasBottom");
-    let ctx = c.getContext("2d");
+ 
     let w = img.width;
     let h = img.height;
 
     c.width = w;
     c.height = h;
-
+   let ctx = c.getContext("2d");
     // draw the image on the temporary canvas
-    ctx.drawImage(img, 0, 0, w, h);
+    ctx.drawImage(img, 0, 0, w*scale, h*scale);
 
     // pull the entire image into an array of pixel data
     let imageData = ctx.getImageData(0, 0, w, h);
@@ -64,9 +65,9 @@ function recolorImage(img, oldRed, oldGreen, oldBlue, newRed, newGreen, newBlue)
         let lum = calcLuminance(hexa);
 
         if(lum>0.3){
-        	imageData.data[i] = 255;
-          imageData.data[i + 1] = 0;
-          imageData.data[i + 2] = 0;
+		  imageData.data[i] = 255;
+		  imageData.data[i + 1] = 0;
+		  imageData.data[i + 2] = 0;
           dark++;
         }
         else
@@ -120,19 +121,21 @@ function drawHelper(e){
 // Upload file
 
 var btn = document.getElementById("photo-button");
-var img = document.getElementById("photo-image");
-var setImg = document.getElementById("set-image");
+//var img = document.getElementById("photo-image");
+var setImg = document.getElementById("select-image");
 btn.addEventListener("change", setImage);
 setImg.addEventListener("click", setImage2);
+
+var _URL = window.URL || window.webkitURL;
 
 function setImage(e) {
   if (this.files && this.files[0]) {
     var file = this.files[0];
     var img = safeImage(file);
     if (img) {
-      var reader = new FileReader();
+      var reader = new Image();
       reader.onload = loadImage;
-      reader.readAsDataURL(this.files[0]);
+      reader.src = _URL.createObjectURL(this.files[0]); //this.files[0]);
     } else {
       alert("Not an accepted file type");
     }
@@ -154,7 +157,11 @@ function setImage2() {
 }
 
 function loadImage(e) {
-  img.setAttribute("src", e.target.result);
+  //image0.setAttribute("src", this.src);
+  //image0.width = this.width * scale;
+  //image0.height = this.height * scale;
+  
+  recolorImage(this, 255, 0, 0, 0, 255, 0);
 }
 
 
@@ -212,7 +219,7 @@ function showDialog(){
   60000);
 }
 
-const showDialogButton = document.getElementById('select-image');
+const showDialogButton = document.getElementById('select-imag');
 if(showDialogButton){
   showDialogButton.addEventListener('click', function onClose() {
     showDialog();

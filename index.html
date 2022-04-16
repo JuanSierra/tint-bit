@@ -64,20 +64,26 @@
 		<button>Download</button>
 	  </vstack>
 	  <vstack>
-		<image stretch src='https://loremflickr.com/g/640/360/dog'></image>
+		<!--image id="img"></image-->
+		<div id="wrapper">
+			<canvas id="canvasBottom"></canvas>
+			<canvas id="canvasTop"></canvas>
+		</div>
 	  </vstack>
 	</hstack>
 
 <dialog id="demo-modal">
 
-  <h3 class="modal-header">Tile Settings</h3>
+  <h3 class="modal-header">Tile Size</h3>
   <div class="modal-body">
-	<label for="size">Tile Size</label>
-    <hstack><input type="text" name="size" id="size" size="4" maxlength="4" value="32"><span>&nbsp;px</span></hstack>
-	
-	<label for="border">Border Width</label>
-	<hstack><input type="text" name="border" id="border" size="4" maxlength="4" value="0"><span>&nbsp;px</span></hstack>
-
+    <hstack spacing=s align-x=center>
+	<div>
+		<input type="text" name="size" id="size" size="2" maxlength="2" value="32" focus><span>&nbsp;px</span>
+	</div>
+	<div>
+		<input type="text" name="size" id="size" size="2" maxlength="2" value="32"><span>&nbsp;px</span>
+	</div>
+	</hstack>
   </div>
   <footer class="modal-footer">
     <button id="ok" type="button" value="true">OK</button>
@@ -95,10 +101,7 @@
 	<br/>
 	<p>Red recolored Green Image</p>
 
-	<div id="wrapper">
-		<canvas id="canvasBottom" width=200 height=200></canvas>
-		<canvas id="canvasTop" width=200 height=200></canvas>
-	</div>
+	
 	
     <script type="module" src="/main.js"></script>
   </body>

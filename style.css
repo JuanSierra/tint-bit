@@ -160,13 +160,17 @@ dialog + .backdrop {
 }
 
 .modal-header{
-  padding: 0px 20px 0px 20px;
+  padding: 0px 10px 0px 10px;
 }
 .modal-body{
   border-top: 1px solid #333;
-  padding: 5px 20px 0 20px;
-
+  padding: 10px 20px 0 20px;
 }
+
+.modal-body input{
+	width:50px !important;
+}
+
 .modal-footer{
   padding: 10px 10px 10px 10px;
   border-top: 1px solid #333;
