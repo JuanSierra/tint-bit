@@ -1,15 +1,4 @@
-const scale = 5;
-let image0 = document.getElementById("img");
-//let url = 'https://loremflickr.com/g/640/360/dog';
-//image0.src = url + '?' + new Date().getTime();
-//image0.setAttribute('crossOrigin', '');
-
-let image = new Image();
-image.crossOrigin = "Anonymous";
-image.onload = function () {
-    recolorImage(image, 255, 0, 0, 0, 255, 0);
-}
-//image.src = image0.src;
+let scale = 1;
 
 function calcLuminance(rgb)
  {
@@ -41,11 +30,19 @@ function recolorImage(img, oldRed, oldGreen, oldBlue, newRed, newGreen, newBlue)
     let w = img.width;
     let h = img.height;
 
-    c.width = w;
-    c.height = h;
-   let ctx = c.getContext("2d");
+    c.width = w*scale;
+    c.height = h*scale;
+    cnv.width = w*scale;
+    cnv.height = h*scale;
+	
+    let ctx = c.getContext("2d");
+	ctx.imageSmoothingEnabled = false;
+	ctx.mozImageSmoothingEnabled = false;
+	ctx.webkitImageSmoothingEnabled = false;
+
+	ctx.scale(scale, scale);
     // draw the image on the temporary canvas
-    ctx.drawImage(img, 0, 0, w*scale, h*scale);
+    ctx.drawImage(img, 0, 0, w, h);
 
     // pull the entire image into an array of pixel data
     let imageData = ctx.getImageData(0, 0, w, h);
@@ -76,13 +73,14 @@ function recolorImage(img, oldRed, oldGreen, oldBlue, newRed, newGreen, newBlue)
     }
    
     ctx.putImageData(imageData, 0, 0);
+
     console.log('dark:' + dark);
     console.log('clear:' + clear);
 }
 
 let cnv = document.getElementById("canvasTop");
 let ctx = cnv.getContext("2d");
-let size = 25;
+let size = 16;
 let isDrawing = false;
 
 cnv.addEventListener('mousedown', e => {
@@ -97,7 +95,8 @@ window.addEventListener('mouseup', e => {
 });
 
 cnv.addEventListener('mousemove', e => {
-	if (isDrawing === true) {
+	//if (isDrawing === true) 
+	{
 		e.preventDefault();
 		e.stopPropagation();
 		drawHelper(e)
@@ -105,23 +104,23 @@ cnv.addEventListener('mousemove', e => {
 });
 
 function drawHelper(e){
-	ctx.clearRect(0, 0, cnv.width, cnv.height);
+	ctx.clearRect(0, 0, cnv.width*scale, cnv.height*scale);
     let posX = cnv.getBoundingClientRect().left; 
     let posY = cnv.getBoundingClientRect().top;
 
     let mouseX = parseInt(e.clientX - posX);
     let mouseY = parseInt(e.clientY - posY);
-    let newX = parseInt(mouseX/size)*size;
-    let newY = parseInt(mouseY/size)*size;
+	let prop = size*scale;
+    let newX = parseInt(mouseX/prop)*prop;
+    let newY = parseInt(mouseY/prop)*prop;
 
     ctx.fillStyle = "rgb(200,0,0)";
-    ctx.strokeRect(newX, newY, size, size);
+    ctx.strokeRect(newX, newY, prop, prop);
 }
 
 // Upload file
 
 var btn = document.getElementById("photo-button");
-//var img = document.getElementById("photo-image");
 var setImg = document.getElementById("select-image");
 btn.addEventListener("change", setImage);
 setImg.addEventListener("click", setImage2);
@@ -135,7 +134,7 @@ function setImage(e) {
     if (img) {
       var reader = new Image();
       reader.onload = loadImage;
-      reader.src = _URL.createObjectURL(this.files[0]); //this.files[0]);
+      reader.src = _URL.createObjectURL(this.files[0]);
     } else {
       alert("Not an accepted file type");
     }
@@ -155,12 +154,10 @@ function safeImage(file) {
 function setImage2() {
   btn.click();
 }
+var theImage;
 
 function loadImage(e) {
-  //image0.setAttribute("src", this.src);
-  //image0.width = this.width * scale;
-  //image0.height = this.height * scale;
-  
+  theImage = this;
   recolorImage(this, 255, 0, 0, 0, 255, 0);
 }
 
@@ -225,4 +222,17 @@ if(showDialogButton){
     showDialog();
   });
 }
+
+function Zoom(e){
+	scale = parseInt(e.target.value)*2;
+	recolorImage(theImage, 255, 0, 0, 0, 255, 0);
+}
+
+var x1 = document.getElementById("A");
+var x2 = document.getElementById("B");
+var x3 = document.getElementById("C");
+
+x1.addEventListener('change', Zoom);
+x2.addEventListener('change', Zoom);
+x3.addEventListener('change', Zoom);
 

@@ -17,14 +17,14 @@
 		
 	   <hstack spacing=m> 
 		<span class="opcion-radio">
-		  <input type="radio" id="A" name="t" checked>
+		  <input type="radio" id="A" name="zoom" value="1" checked>
 		  <label for="A">1x</label>
 		</span>
 		<span class="opcion-radio">
-		  <input type="radio" id="B" name="t"><label for="B">2x</label>
+		  <input type="radio" id="B" name="zoom" value="2"><label for="B">2x</label>
 		</span>
 		<span class="opcion-radio">
-		  <input type="radio" id="C" name="t">
+		  <input type="radio" id="C" name="zoom" value="3">
 		  <label for="C">3x</label>
 		</span>
 	  </hstack>
@@ -91,18 +91,8 @@
 
 </dialog>
 
-
-	<button id="set-image">Set Image</button>
 	<input id="photo-button" type="file" />
-	<img id="photo-image" />
-	
-    <p>Original Image</p>
-	<img class="border" id="image0" width=200 height=200/>
-	<br/>
-	<p>Red recolored Green Image</p>
 
-	
-	
     <script type="module" src="/main.js"></script>
   </body>
 </html>
