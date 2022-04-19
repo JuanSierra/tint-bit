@@ -1,4 +1,5 @@
 let scale = 1;
+let size = 16;
 
 function calcLuminance(rgb)
  {
@@ -72,20 +73,88 @@ function recolorImage(img, oldRed, oldGreen, oldBlue, newRed, newGreen, newBlue)
         fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2])
     }
    
+
     ctx.putImageData(imageData, 0, 0);
 
     console.log('dark:' + dark);
     console.log('clear:' + clear);
 }
 
+function colorRegion(x, y){
+	let c = document.getElementById("canvasBottom");
+    let ctx = c.getContext("2d");
+	
+	let w = theImage.width;
+    let h = theImage.height;
+	
+	var canvas = document.createElement('canvas');
+	canvas.width = theImage.width;
+	canvas.height = theImage.height;
+    var vctx = canvas.getContext('2d');
+	vctx.drawImage(theImage, 0, 0, w, h);
+	
+	let imageData = vctx.getImageData(0, 0, w, h);
+	var x0= parseInt(x/(size));
+	var y0= parseInt(y/(size));
+    // examine every pixel, 
+    // change any old rgb to the new-rgb
+	console.log(y0*size+x0)
+	console.log((y0*size+x0)+size*4)
+
+
+	for (var x = x0*size; x < x0*size+size; x++) {
+        for (var y = y0*size; y < y0*size+size; y++) {
+		  imageData.data[y * (w * 4) + x * 4] = 255;
+        }
+    }
+	/*
+    for (let i = y0*size+x0*size; i < (y0*size+x0*size)+size*4; i += 4) {
+
+        // is this pixel the old rgb?
+        if (imageData.data[i] == oldRed && imageData.data[i + 1] == oldGreen && imageData.data[i + 2] == oldBlue) {
+            // change to your new rgb
+            imageData.data[i] = newRed;
+            imageData.data[i + 1] = newGreen;
+            imageData.data[i + 2] = newBlue;
+        }
+        //let hexa = fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2]);
+        //let lum = calcLuminance(hexa);
+
+        //if(lum>0.3){
+		  imageData.data[i] = 255;
+		  imageData.data[i + 1] = 255;
+		  imageData.data[i + 2] = 0;
+          //dark++;
+        //}
+        //else
+          //clear++;
+        fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2])
+    }
+   */
+     
+   
+	vctx.putImageData(imageData, 0, 0);
+	vctx.scale(scale, scale);
+	var f = vctx.getImageData(x0*size*scale, y0*size*scale, size*scale, size*scale);
+	console.log(f)
+    ctx.putImageData(f,x0*size,y0*size);
+	
+}
+
 let cnv = document.getElementById("canvasTop");
 let ctx = cnv.getContext("2d");
-let size = 16;
 let isDrawing = false;
 
 cnv.addEventListener('mousedown', e => {
   isDrawing = true;
-  drawHelper(e)
+  //drawHelper(e)
+  
+  let posX = cnv.getBoundingClientRect().left; 
+  let posY = cnv.getBoundingClientRect().top;
+  let mouseX = parseInt(e.clientX - posX);
+  let mouseY = parseInt(e.clientY - posY);
+
+  colorRegion(mouseX, mouseY)
 });
 
 window.addEventListener('mouseup', e => {
