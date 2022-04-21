@@ -2,13 +2,13 @@ let scale = 1;
 let size = 16;
 
 function calcLuminance(rgb)
- {
-	let r = (rgb & 0xff0000) >> 16;
-	let g = (rgb & 0xff00) >> 8;
-	let b = (rgb & 0xff);
+{
+  let r = (rgb & 0xff0000) >> 16;
+  let g = (rgb & 0xff00) >> 8;
+  let b = (rgb & 0xff);
 
-	return (r*0.299 + g*0.587 + b*0.114) / 256;
- }
+  return (r*0.299 + g*0.587 + b*0.114) / 256;
+}
  
 let rgbToHex = function (rgb) { 
   let hex = Number(rgb).toString(16);
@@ -94,14 +94,14 @@ function colorRegion(x, y){
 	vctx.drawImage(theImage, 0, 0, w, h);
 	
 	let imageData = vctx.getImageData(0, 0, w, h);
-	var x0= parseInt(x/(size));
-	var y0= parseInt(y/(size));
+	var x0= parseInt(x/(size*scale));
+	var y0= parseInt(y/(size*scale));
     // examine every pixel, 
     // change any old rgb to the new-rgb
 	console.log(y0*size+x0)
 	console.log((y0*size+x0)+size*4)
 
-
+	
 	for (var x = x0*size; x < x0*size+size; x++) {
         for (var y = y0*size; y < y0*size+size; y++) {
 		  imageData.data[y * (w * 4) + x * 4] = 255;
@@ -132,13 +132,30 @@ function colorRegion(x, y){
     }
    */
      
-   
+
 	vctx.putImageData(imageData, 0, 0);
-	vctx.scale(scale, scale);
-	var f = vctx.getImageData(x0*size*scale, y0*size*scale, size*scale, size*scale);
-	console.log(f)
-    ctx.putImageData(f,x0*size,y0*size);
+	//vctx.scale(scale, scale);
+
+	// Tile extract
+	var modified = canvas.toDataURL("image/png");
+	console.log(modified)
+	var tileCanvas = document.createElement('canvas');
+	tileCanvas.width = canvas.width*scale;
+	tileCanvas.height = canvas.height*scale;
+    var tilectx = tileCanvas.getContext('2d');
+	tilectx.imageSmoothingEnabled = false;
+	tilectx.mozImageSmoothingEnabled = false;
+	tilectx.webkitImageSmoothingEnabled = false;
 	
+	tilectx.scale(scale,scale);
+	var modifiedImg = new Image();
+	modifiedImg.src = modified;
+	
+	modifiedImg.onload = function(e){
+		tilectx.drawImage(this, 0, 0);
+		var f = tilectx.getImageData(x0*size*scale, y0*size*scale, size*scale, size*scale);
+		ctx.putImageData(f,x0*size*scale,y0*size*scale);
+	};
 }
 
 let cnv = document.getElementById("canvasTop");
@@ -305,3 +322,38 @@ x1.addEventListener('change', Zoom);
 x2.addEventListener('change', Zoom);
 x3.addEventListener('change', Zoom);
 
+
+
+var op = document.getElementById("op");
+
+op.addEventListener('change', function(ev){alert(ev)});
+
+var UI = {
+  _options: {
+    menu: [ 'palette' ]
+  }, 
+  init: function (actions) {
+    this._actions = actions;
+  },
+  _addMenuEvent(menuName) {
+    forEach(this._options.menu, (menuName) => {
+      this[menuName].addEvent(this._actions[menuName]);
+    });
+  }
+};
+
+var Editor = {
+  init: function () {
+    this._ui = UI.init(this.getActions());
+  },
+
+  getActions: function(){
+    return {
+      changePalette: this._changePalette()
+    }
+  },
+
+  _changePalette: function(){
+    console.log('change')
+  }
+};
