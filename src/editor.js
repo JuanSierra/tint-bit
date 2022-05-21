@@ -1,10 +1,19 @@
+import UI from './UI' 
+import PaletteCommand from './commands/paletteCommand' 
+import Graphics from './Graphics';
 
-export class Editor {
+export default class Editor {
     constructor(element, operations) {
       this.commands = [];
       this._operations = operations;
       this._ui = new UI();
       this._ui.init(element, this.getActions());
+
+      this._graphics = new Graphics();
+      /*this._graphics = new Graphics(this.ui ? this.ui.getEditorArea() : wrapper, {
+        cssMaxWidth: options.cssMaxWidth,
+        cssMaxHeight: options.cssMaxHeight,
+      });*/
     }
   
     getActions(){
@@ -14,8 +23,16 @@ export class Editor {
                 //this.operation(account1, 'ChangeColor', 'white');
                 console.log('updatePalette ' + palette);
               }
+            },
+
+            "Zoom":{
+                changeZoom: function(scale){
+                    //this.operation(account1, 'ChangeColor', 'white');
+                    //console.log('updatePalette ' + palette);
+
+                } 
             }
-      }
+        }
     }
 
    //TODO: change color to payload or args
@@ -29,7 +46,6 @@ export class Editor {
       this.commands.push(command);
 
       execute.call(this._operations[operation], command);
-
     }
   
     undo(count) {

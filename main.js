@@ -1,3 +1,11 @@
+import Editor from './src/Editor' 
+import Graphics from './src/Graphics' 
+import {operations} from './src/operations.js' 
+
+var editor = new Editor(document, operations);
+const account1 = new Graphics('canvas1');
+//editor.operation(account1, 'ChangeColor', 'white');
+
 let scale = 1;
 let size = 16;
 
@@ -23,78 +31,6 @@ let fullColorHex = function (r, g, b) {
   var blue = rgbToHex(b);
   return red + green + blue;
 };
-
-function recolorImage(
-  img,
-  oldRed,
-  oldGreen,
-  oldBlue,
-  newRed,
-  newGreen,
-  newBlue
-) {
-  let c = document.getElementById("canvasBottom");
-
-  let w = img.width;
-  let h = img.height;
-
-  c.width = w * scale;
-  c.height = h * scale;
-  cnv.width = w * scale;
-  cnv.height = h * scale;
-
-  let ctx = c.getContext("2d");
-  ctx.imageSmoothingEnabled = false;
-  ctx.mozImageSmoothingEnabled = false;
-  ctx.webkitImageSmoothingEnabled = false;
-
-  ctx.scale(scale, scale);
-  // draw the image on the temporary canvas
-  ctx.drawImage(img, 0, 0, w, h);
-
-  // pull the entire image into an array of pixel data
-  let imageData = ctx.getImageData(0, 0, w, h);
-  let dark = 0;
-  let clear = 0;
-  // examine every pixel,
-  // change any old rgb to the new-rgb
-  for (let i = 0; i < imageData.data.length; i += 4) {
-    // is this pixel the old rgb?
-    if (
-      imageData.data[i] == oldRed &&
-      imageData.data[i + 1] == oldGreen &&
-      imageData.data[i + 2] == oldBlue
-    ) {
-      // change to your new rgb
-      imageData.data[i] = newRed;
-      imageData.data[i + 1] = newGreen;
-      imageData.data[i + 2] = newBlue;
-    }
-    let hexa = fullColorHex(
-      imageData.data[i],
-      imageData.data[i + 1],
-      imageData.data[i + 2]
-    );
-    let lum = calcLuminance(hexa);
-
-    if (lum > 0.3) {
-      imageData.data[i] = 255;
-      imageData.data[i + 1] = 0;
-      imageData.data[i + 2] = 0;
-      dark++;
-    } else clear++;
-    fullColorHex(
-      imageData.data[i],
-      imageData.data[i + 1],
-      imageData.data[i + 2]
-    );
-  }
-
-  ctx.putImageData(imageData, 0, 0);
-
-  console.log("dark:" + dark);
-  console.log("clear:" + clear);
-}
 
 function colorRegion(x, y) {
   let c = document.getElementById("canvasBottom");
@@ -326,11 +262,7 @@ if (showDialogButton) {
   });
 }
 
-function Zoom(e) {
-  scale = parseInt(e.target.value) * 2;
-  recolorImage(theImage, 255, 0, 0, 0, 255, 0);
-}
-
+/*
 var x1 = document.getElementById("A");
 var x2 = document.getElementById("B");
 var x3 = document.getElementById("C");
@@ -339,12 +271,26 @@ x1.addEventListener("change", Zoom);
 x2.addEventListener("change", Zoom);
 x3.addEventListener("change", Zoom);
 
+*/
+
+
+/*  ------------------  LAST ONE
+
 var op = document.getElementById("op");
 var pal = new Palette(op);
-op.addEventListener("change", function (ev) {
-  alert(ev);
+op.addEventListener("change",
+  function (ev) {
+    alert(ev);
 });
 
+
+*/
+
+
+
+
+
+/*
 class Palette {
   constructor(element) {
     this.eventHandler = {};
@@ -444,3 +390,4 @@ class Command {
     return this._invoker.execute(commandName, ...args);
   }
 }
+*/

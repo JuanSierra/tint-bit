@@ -1,3 +1,4 @@
+import Graphics from './Graphics'
 
 var operations = {
     ChangeColor: {
@@ -24,3 +25,5 @@ var operations = {
       },
     },
   };
+
+  export { operations };

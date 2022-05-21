@@ -8,7 +8,7 @@ import Command from './command'
     }
   }
 */
-export default function PaletteCommand(key, value) {
+export default function ZoomCommand(key, value) {
 
     let oldValue;
 
@@ -27,3 +27,9 @@ export default function PaletteCommand(key, value) {
 
     return new Command(execute, undo, value);
 }
+
+
+function Zoom(e) {
+    scale = parseInt(e.target.value) * 2;
+    recolorImage(theImage, 255, 0, 0, 0, 255, 0);
+  }
