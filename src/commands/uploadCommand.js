@@ -8,21 +8,24 @@ import Command from './command'
     }
   }
 */
-export default function ZoomCommand(key, value) {
+export default function UploadCommand(key, value) {
 
     let oldValue;
 
-    const execute = () => {
-        if (mockupDB.hasOwnProperty(key)) {
+    const execute = (graphics) => {
+        /*if (mockupDB.hasOwnProperty(key)) {
             oldValue = mockupDB[key];
             mockupDB[key] = value;
-        }
+        }*/
+        //const loader = graphics.getComponent("UPLOAD");
+        graphics.loadImage(image);
+        // remove undo stack ?
     };
 
     const undo = () => {
-        if (oldValue) {
+        /*if (oldValue) {
             mockupDB[key] = oldValue;
-        }
+        }*/
     };
 
     return new Command(execute, undo, value);

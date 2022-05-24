@@ -3,7 +3,7 @@ import Graphics from './src/Graphics'
 import {operations} from './src/operations.js' 
 
 var editor = new Editor(document, operations);
-const account1 = new Graphics('canvas1');
+const account1 = new Graphics('canvas1', document.getElementById("canvasBottom"));
 //editor.operation(account1, 'ChangeColor', 'white');
 
 let scale = 1;
@@ -161,11 +161,11 @@ function drawHelper(e) {
 
 // Upload file
 
-var btn = document.getElementById("photo-button");
-var setImg = document.getElementById("select-image");
-btn.addEventListener("change", setImage);
-setImg.addEventListener("click", setImage2);
-
+//var btn = document.getElementById("photo-button");
+//var setImg = document.getElementById("select-image");
+//btn.addEventListener("change", setImage);
+//setImg.addEventListener("click", setImage2);
+/*
 var _URL = window.URL || window.webkitURL;
 
 function setImage(e) {
@@ -181,7 +181,7 @@ function setImage(e) {
     }
   }
 }
-
+*//*
 function safeImage(file) {
   var acceptedTypes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
   for (var i = 0; i < acceptedTypes.length; i++) {
@@ -195,12 +195,7 @@ function safeImage(file) {
 function setImage2() {
   btn.click();
 }
-var theImage;
-
-function loadImage(e) {
-  theImage = this;
-  recolorImage(this, 255, 0, 0, 0, 255, 0);
-}
+*/
 
 // Dialog
 

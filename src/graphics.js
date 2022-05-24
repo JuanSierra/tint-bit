@@ -1,10 +1,12 @@
 import Zoom from './components/zoom'
 
 export default class Graphics {
-    constructor(name) {
+    constructor(name, canvas) {
         this.name = name;
         this.color = "default";
         this._componentMap = {};
+        this._image = null;
+        this._canvas = canvas;
 
         Graphics.collection.set(name, this);
 
@@ -15,34 +17,35 @@ export default class Graphics {
       return Graphics.collection.get(name);
     }
 
-    
+    loadImage(image) {
+        _image = image;
+        recolorImage(255, 0, 0, 0, 255, 0);
+    }
+
     recolorImage(
-    img,
-    oldRed,
-    oldGreen,
-    oldBlue,
-    newRed,
-    newGreen,
-    newBlue
-  ) {
-        let c = document.getElementById("canvasBottom");
+        oldRed,
+        oldGreen,
+        oldBlue,
+        newRed,
+        newGreen,
+        newBlue) 
+    {
+        let w = this._image.width;
+        let h = this._image.height;
     
-        let w = img.width;
-        let h = img.height;
-    
-        c.width = w * scale;
-        c.height = h * scale;
+        this._canvas.width = w * scale;
+        this._canvas.height = h * scale;
         cnv.width = w * scale;
         cnv.height = h * scale;
     
-        let ctx = c.getContext("2d");
+        let ctx = this._canvas.getContext("2d");
         ctx.imageSmoothingEnabled = false;
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
     
         ctx.scale(scale, scale);
         // draw the image on the temporary canvas
-        ctx.drawImage(img, 0, 0, w, h);
+        ctx.drawImage(this._image, 0, 0, w, h);
     
         // pull the entire image into an array of pixel data
         let imageData = ctx.getImageData(0, 0, w, h);
@@ -88,6 +91,9 @@ export default class Graphics {
         console.log("clear:" + clear);
     }
 
+    getComponent(name) {
+        return this._componentMap[name];
+    }
 
     _createComponents()
     {

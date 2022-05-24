@@ -31,6 +31,14 @@ export default class Editor {
                     //console.log('updatePalette ' + palette);
 
                 } 
+            },
+
+            "Upload":{
+                loadImage: function(image){
+                    //this.operation(account1, 'ChangeColor', 'white');
+                    //console.log('updatePalette ' + palette);
+                    //commandManager.execute(new UploaCommand(image));
+                } 
             }
         }
     }
