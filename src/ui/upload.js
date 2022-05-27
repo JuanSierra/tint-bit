@@ -1,9 +1,11 @@
 const acceptedTypes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
 
 export default class Upload {
-    constructor(element) {
+    constructor(window, element) {
       this.eventHandler = {};
-  
+      this.window = window;
+      this._URL = window.URL || window.webkitURL;
+
       this._els = {
         upload: element.getElementById("select-image"),
         button: element.getElementById("photo-button")
@@ -20,13 +22,12 @@ export default class Upload {
       //this._els.zoom_x2.addEventListener("change", this._zoomSelected.bind(this));
       
       // indirect window opening 
-      this._els.upload.addEventListener("click", _doClick);
-      this._els.button.document.addEventListener("click", _setImage);
+      this._els.upload.addEventListener("click", this._doClick.bind(this));
+      this._els.button.addEventListener("click", this._setImage.bind(this));
     }
 
-    //var _URL = window.URL || window.webkitURL;
-
     _loadImage(e) {
+        console.log('llega!')
         this.actions.loadImage(image);
 /*
         theImage = this;
@@ -34,13 +35,14 @@ export default class Upload {
     }
 
     _setImage(e) {
+        console.log(e)
       if (this.files && this.files[0]) {
         var file = this.files[0];
         
         if (_isSafeImage(file)) {
           var reader = new Image();
-          reader.onload = _loadImage;
-          reader.src = _URL.createObjectURL(this.files[0]);
+          reader.onload = this._loadImage;
+          reader.src = this._URL.createObjectURL(this.files[0]);
         } else {
             alert("Not an accepted file type");
         }
@@ -48,6 +50,7 @@ export default class Upload {
     }
 
     _doClick() {
+        console.log(this._els);
         this._els.button.click();
     }
 

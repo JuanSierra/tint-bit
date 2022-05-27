@@ -73,24 +73,23 @@
 	  </vstack>
 	</hstack>
 
-<dialog id="demo-modal">
+	<dialog id="demo-modal">
+		<h3 class="modal-header">Tile Size</h3>
+		<div class="modal-body">
+			<hstack spacing=s align-x=center>
+			<div>
+				<input type="text" name="size" id="size" size="2" maxlength="2" value="32" focus><span>&nbsp;px</span>
+			</div>
+			<div>
+				<input type="text" name="size" id="size" size="2" maxlength="2" value="32"><span>&nbsp;px</span>
+			</div>
+			</hstack>
+		</div>
+		<footer class="modal-footer">
+			<button id="ok" type="button" value="true">OK</button>
+		</footer>
+	</dialog>
 
-  <h3 class="modal-header">Tile Size</h3>
-  <div class="modal-body">
-    <hstack spacing=s align-x=center>
-	<div>
-		<input type="text" name="size" id="size" size="2" maxlength="2" value="32" focus><span>&nbsp;px</span>
-	</div>
-	<div>
-		<input type="text" name="size" id="size" size="2" maxlength="2" value="32"><span>&nbsp;px</span>
-	</div>
-	</hstack>
-  </div>
-  <footer class="modal-footer">
-    <button id="ok" type="button" value="true">OK</button>
-  </footer>
-
-</dialog>
 	<input id="photo-button" type="file" />
     <script type="module" src="/main.js"></script>
   </body>

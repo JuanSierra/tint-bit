@@ -1,6 +1,7 @@
 export default class Palette {
-  constructor(element) {
+  constructor(window, element) {
     this.eventHandler = {};
+    this.window = window;
 
     this._els = {
       paletteList: element.getElementById("paletteList"),

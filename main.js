@@ -2,7 +2,7 @@ import Editor from './src/Editor'
 import Graphics from './src/Graphics' 
 import {operations} from './src/operations.js' 
 
-var editor = new Editor(document, operations);
+var editor = new Editor(window, operations);
 const account1 = new Graphics('canvas1', document.getElementById("canvasBottom"));
 //editor.operation(account1, 'ChangeColor', 'white');
 
@@ -265,25 +265,16 @@ var x3 = document.getElementById("C");
 x1.addEventListener("change", Zoom);
 x2.addEventListener("change", Zoom);
 x3.addEventListener("change", Zoom);
-
 */
 
-
 /*  ------------------  LAST ONE
-
 var op = document.getElementById("op");
 var pal = new Palette(op);
 op.addEventListener("change",
   function (ev) {
     alert(ev);
 });
-
-
 */
-
-
-
-
 
 /*
 class Palette {

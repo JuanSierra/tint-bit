@@ -14,6 +14,9 @@ export default class Editor {
         cssMaxWidth: options.cssMaxWidth,
         cssMaxHeight: options.cssMaxHeight,
       });*/
+
+      // TODO: move to an invoker class
+      this.executeHistory = [];
     }
   
     getActions(){
@@ -38,9 +41,17 @@ export default class Editor {
                     //this.operation(account1, 'ChangeColor', 'white');
                     //console.log('updatePalette ' + palette);
                     //commandManager.execute(new UploaCommand(image));
+                    //this.operation(image, 'Upload');
+                    this.execute(UploadCommand(Graphics, image));
                 } 
             }
         }
+    }
+
+    execute(command) {
+        this.executeHistory.push(command);
+        command.execute();
+        console.log(`Executed command ${command.serialize()}`);
     }
 
    //TODO: change color to payload or args

@@ -8,16 +8,17 @@ import Command from './command'
     }
   }
 */
-export default function UploadCommand(key, value) {
+export default function UploadCommand(graphics, image) {
 
     let oldValue;
 
-    const execute = (graphics) => {
+    const execute = () => {
         /*if (mockupDB.hasOwnProperty(key)) {
             oldValue = mockupDB[key];
             mockupDB[key] = value;
         }*/
         //const loader = graphics.getComponent("UPLOAD");
+        oldValue = image;
         graphics.loadImage(image);
         // remove undo stack ?
     };
@@ -28,7 +29,7 @@ export default function UploadCommand(key, value) {
         }*/
     };
 
-    return new Command(execute, undo, value);
+    return new Command(execute, undo, image);
 }
 
 /*

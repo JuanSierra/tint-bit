@@ -24,6 +24,15 @@ var operations = {
         account.balance -= command.amount;
       },
     },
+    Upload: {
+        execute(command){
+          undoData = command.image;
+          Graphics.loadImage(command.image);
+        },
+        undo(command){
+          // Graphics.loadImage(image);
+        },
+      },
   };
 
   export { operations };
