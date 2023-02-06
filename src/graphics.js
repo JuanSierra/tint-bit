@@ -1,12 +1,14 @@
 import Zoom from './components/zoom'
 
 export default class Graphics {
-    constructor(name, canvas) {
+    constructor(name, canvas, top) {
         this.name = name;
         this.color = "default";
         this._componentMap = {};
         this._image = null;
         this._canvas = canvas;
+        this._top = top;
+        this._scale = 1;
 
         Graphics.collection.set(name, this);
 
@@ -18,8 +20,10 @@ export default class Graphics {
     }
 
     loadImage(image) {
-        _image = image;
-        recolorImage(255, 0, 0, 0, 255, 0);
+        console.log('img')
+        console.log(image)
+        this._image = image;
+        this.recolorImage(255, 0, 0, 0, 255, 0);
     }
 
     recolorImage(
@@ -33,17 +37,17 @@ export default class Graphics {
         let w = this._image.width;
         let h = this._image.height;
     
-        this._canvas.width = w * scale;
-        this._canvas.height = h * scale;
-        cnv.width = w * scale;
-        cnv.height = h * scale;
+        this._canvas.width = w * this._scale;
+        this._canvas.height = h * this._scale;
+        this._top.width = w * this._scale;
+        this._top.height = h * this._scale;
     
         let ctx = this._canvas.getContext("2d");
         ctx.imageSmoothingEnabled = false;
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
     
-        ctx.scale(scale, scale);
+        ctx.scale(this._scale, this._scale);
         // draw the image on the temporary canvas
         ctx.drawImage(this._image, 0, 0, w, h);
     
@@ -78,7 +82,7 @@ export default class Graphics {
             imageData.data[i + 2] = 0;
             dark++;
         } else clear++;
-        fullColorHex(
+        this._fullColorHex(
             imageData.data[i],
             imageData.data[i + 1],
             imageData.data[i + 2]
@@ -103,6 +107,13 @@ export default class Graphics {
     _register(map, module) {
         map[module.getName()] = module;
     }
+
+    _fullColorHex = function (r, g, b) {
+        var red = rgbToHex(r);
+        var green = rgbToHex(g);
+        var blue = rgbToHex(b);
+        return red + green + blue;
+      };
   }
   
   Graphics.collection = new Map();

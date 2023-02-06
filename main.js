@@ -3,7 +3,7 @@ import Graphics from './src/Graphics'
 import {operations} from './src/operations.js' 
 
 var editor = new Editor(window, operations);
-const account1 = new Graphics('canvas1', document.getElementById("canvasBottom"));
+const account1 = new Graphics('canvas1', document.getElementById("canvasBottom"), document.getElementById("canvasTop"));
 //editor.operation(account1, 'ChangeColor', 'white');
 
 let scale = 1;
@@ -23,13 +23,6 @@ let rgbToHex = function (rgb) {
     hex = "0" + hex;
   }
   return hex;
-};
-
-let fullColorHex = function (r, g, b) {
-  var red = rgbToHex(r);
-  var green = rgbToHex(g);
-  var blue = rgbToHex(b);
-  return red + green + blue;
 };
 
 function colorRegion(x, y) {
@@ -161,11 +154,11 @@ function drawHelper(e) {
 
 // Upload file
 
-//var btn = document.getElementById("photo-button");
-//var setImg = document.getElementById("select-image");
-//btn.addEventListener("change", setImage);
-//setImg.addEventListener("click", setImage2);
-/*
+var btn = document.getElementById("photo-button");
+var setImg = document.getElementById("select-image");
+btn.addEventListener("change", setImage);
+setImg.addEventListener("click", setImage2);
+
 var _URL = window.URL || window.webkitURL;
 
 function setImage(e) {
@@ -174,14 +167,15 @@ function setImage(e) {
     var img = safeImage(file);
     if (img) {
       var reader = new Image();
-      reader.onload = loadImage;
+      //reader.onload = account1.loadImage;
+      reader.addEventListener("load", () => account1.loadImage(reader));
       reader.src = _URL.createObjectURL(this.files[0]);
     } else {
       alert("Not an accepted file type");
     }
   }
 }
-*//*
+
 function safeImage(file) {
   var acceptedTypes = ["image/jpg", "image/jpeg", "image/png", "image/gif"];
   for (var i = 0; i < acceptedTypes.length; i++) {
@@ -195,7 +189,6 @@ function safeImage(file) {
 function setImage2() {
   btn.click();
 }
-*/
 
 // Dialog
 
