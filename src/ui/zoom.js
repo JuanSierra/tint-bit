@@ -1,14 +1,15 @@
-export class Zoom {
-    constructor(element) {
+export default class Zoom {
+    constructor(window, element) {
       this.eventHandler = {};
-  
+      this.window = window;
+
       this._els = {
         zoom_x2: element.getElementById("B")
       };
     }
   
     addEvent(actions) {
-      this.eventHandler.paletteChanged = this._paletteChanged.bind(this);
+      this.eventHandler.zoomSelected = this._zoomSelected.bind(this);
   
       this.actions = actions;
       //this.ele.addEventListener('click', this.eventHandler.rotationAngleChanged);
@@ -18,7 +19,7 @@ export class Zoom {
     }
 
     _zoomSelected(event) {
-        console.log(event)
+      console.log('zoom selected')
         //const palette = this._els.paletteList.value;
       //this.actions.updatePalette(palette);
       //this.actions.updatePalette('palette');

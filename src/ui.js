@@ -1,15 +1,17 @@
 import Palette from "./ui/palette";
 import Upload from "./ui/upload";
+import Zoom from "./ui/zoom";
 
 const SUB_UI_COMPONENT = {
   Palette,
-  Upload
+  Upload,
+  Zoom
 };
 
 export default class UI {
   constructor() {
     this._options = {
-      menu: ["Palette", "Upload"],
+      menu: ["Palette", "Upload", "Zoom"],
     };
   }
 
@@ -18,7 +20,7 @@ export default class UI {
     this._actions = actions;
     this._window = element;
     this._element = element.document;
-
+    console.log('init ui')
     this._makeMenu();
     this._addMenuEvent();
   }

@@ -32,7 +32,7 @@ export default class Editor {
                 changeZoom: function(scale){
                     //this.operation(account1, 'ChangeColor', 'white');
                     //console.log('updatePalette ' + palette);
-
+                    console.log('change zoom');
                 } 
             },
 

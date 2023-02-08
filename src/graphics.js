@@ -69,12 +69,12 @@ export default class Graphics {
             imageData.data[i + 1] = newGreen;
             imageData.data[i + 2] = newBlue;
         }
-        let hexa = fullColorHex(
+        let hexa = this._fullColorHex(
             imageData.data[i],
             imageData.data[i + 1],
             imageData.data[i + 2]
         );
-        let lum = calcLuminance(hexa);
+        let lum = this._calcLuminance(hexa);
     
         if (lum > 0.3) {
             imageData.data[i] = 255;
@@ -108,12 +108,29 @@ export default class Graphics {
         map[module.getName()] = module;
     }
 
+    _rgbToHex = function (rgb) {
+        let hex = Number(rgb).toString(16);
+        if (hex.length < 2) {
+          hex = "0" + hex;
+        }
+        return hex;
+      };
+
+      
     _fullColorHex = function (r, g, b) {
-        var red = rgbToHex(r);
-        var green = rgbToHex(g);
-        var blue = rgbToHex(b);
+        var red = this._rgbToHex(r);
+        var green = this._rgbToHex(g);
+        var blue = this._rgbToHex(b);
         return red + green + blue;
       };
+
+      _calcLuminance = function(rgb) {
+        let r = (rgb & 0xff0000) >> 16;
+        let g = (rgb & 0xff00) >> 8;
+        let b = rgb & 0xff;
+      
+        return (r * 0.299 + g * 0.587 + b * 0.114) / 256;
+      }
   }
   
   Graphics.collection = new Map();

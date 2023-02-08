@@ -1,29 +1,14 @@
 import Editor from './src/Editor' 
 import Graphics from './src/Graphics' 
-import {operations} from './src/operations.js' 
+import { operations } from './src/operations.js' 
 
 var editor = new Editor(window, operations);
+
 const account1 = new Graphics('canvas1', document.getElementById("canvasBottom"), document.getElementById("canvasTop"));
 //editor.operation(account1, 'ChangeColor', 'white');
 
 let scale = 1;
 let size = 16;
-
-function calcLuminance(rgb) {
-  let r = (rgb & 0xff0000) >> 16;
-  let g = (rgb & 0xff00) >> 8;
-  let b = rgb & 0xff;
-
-  return (r * 0.299 + g * 0.587 + b * 0.114) / 256;
-}
-
-let rgbToHex = function (rgb) {
-  let hex = Number(rgb).toString(16);
-  if (hex.length < 2) {
-    hex = "0" + hex;
-  }
-  return hex;
-};
 
 function colorRegion(x, y) {
   let c = document.getElementById("canvasBottom");
