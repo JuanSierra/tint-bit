@@ -2,13 +2,14 @@ import Editor from './src/Editor'
 import Graphics from './src/Graphics' 
 import { operations } from './src/operations.js' 
 
-var editor = new Editor(window, operations);
-
 const account1 = new Graphics('canvas1', document.getElementById("canvasBottom"), document.getElementById("canvasTop"));
+
+var editor = new Editor(window, account1);
+
 //editor.operation(account1, 'ChangeColor', 'white');
 
 let scale = 1;
-let size = 16;
+let size = 8;
 
 function colorRegion(x, y) {
   let c = document.getElementById("canvasBottom");
@@ -123,13 +124,13 @@ cnv.addEventListener("mousemove", (e) => {
 });
 
 function drawHelper(e) {
-  ctx.clearRect(0, 0, cnv.width * scale, cnv.height * scale);
+  ctx.clearRect(0, 0, cnv.width * account1.scale, cnv.height *  account1.scale);
   let posX = cnv.getBoundingClientRect().left;
   let posY = cnv.getBoundingClientRect().top;
 
   let mouseX = parseInt(e.clientX - posX);
   let mouseY = parseInt(e.clientY - posY);
-  let prop = size * scale;
+  let prop = size *  account1.scale;
   let newX = parseInt(mouseX / prop) * prop;
   let newY = parseInt(mouseY / prop) * prop;
 

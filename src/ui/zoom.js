@@ -4,7 +4,9 @@ export default class Zoom {
       this.window = window;
 
       this._els = {
-        zoom_x2: element.getElementById("B")
+        zoom_x1: element.getElementById("A"),
+        zoom_x2: element.getElementById("B"),
+        zoom_x3: element.getElementById("C")
       };
     }
   
@@ -15,15 +17,13 @@ export default class Zoom {
       //this.ele.addEventListener('click', this.eventHandler.rotationAngleChanged);
       //this._els.paletteList.addEventListener('click', this.eventHandler.rotationAngleChanged);
       //this._els.paletteList.addEventListener('change', this._listChanged.bind(this));
+      this._els.zoom_x1.addEventListener("change", this._zoomSelected.bind(this));
       this._els.zoom_x2.addEventListener("change", this._zoomSelected.bind(this));
+      this._els.zoom_x3.addEventListener("change", this._zoomSelected.bind(this));
     }
 
     _zoomSelected(event) {
-      console.log('zoom selected')
-        //const palette = this._els.paletteList.value;
-      //this.actions.updatePalette(palette);
-      //this.actions.updatePalette('palette');
-      this.actions.changeZoom(2);
+      this.actions.changeZoom(event.target.value);
     }
   /*
     _paletteChanged(event) {

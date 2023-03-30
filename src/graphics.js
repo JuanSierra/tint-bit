@@ -19,6 +19,14 @@ export default class Graphics {
       return Graphics.collection.get(name);
     }
 
+    get scale(){
+        return this._scale;
+    }
+    
+    set scale(value) {
+        this._scale = value;
+    }
+
     loadImage(image) {
         console.log('img')
         console.log(image)
@@ -103,7 +111,6 @@ export default class Graphics {
     {
         this._register(this._componentMap, new Zoom(this));
     }
-
     _register(map, module) {
         map[module.getName()] = module;
     }

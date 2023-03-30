@@ -1,15 +1,16 @@
 import UI from './UI' 
 import PaletteCommand from './commands/paletteCommand' 
+import ZoomCommand from './commands/zoomCommand' 
 import Graphics from './Graphics';
 
 export default class Editor {
-    constructor(element, operations) {
+    constructor(element, graphics) {
       this.commands = [];
-      this._operations = operations;
+      //this._operations = operations;
       this._ui = new UI();
-      this._ui.init(element, this.getActions());
+      this._ui.init(element, this.getActions(this));
 
-      this._graphics = new Graphics();
+      this._graphics = graphics;
       /*this._graphics = new Graphics(this.ui ? this.ui.getEditorArea() : wrapper, {
         cssMaxWidth: options.cssMaxWidth,
         cssMaxHeight: options.cssMaxHeight,
@@ -19,7 +20,11 @@ export default class Editor {
       this.executeHistory = [];
     }
   
-    getActions(){
+    get graphics(){
+      return this._graphics;
+    }
+
+    getActions(editor){
         return {
             "Palette": {
               updatePalette: function(palette){
@@ -33,6 +38,8 @@ export default class Editor {
                     //this.operation(account1, 'ChangeColor', 'white');
                     //console.log('updatePalette ' + palette);
                     console.log('change zoom');
+                    console.log(editor.graphics)
+                    editor.execute(ZoomCommand(scale, editor.graphics));
                 } 
             },
 
@@ -42,6 +49,8 @@ export default class Editor {
                     //console.log('updatePalette ' + palette);
                     //commandManager.execute(new UploaCommand(image));
                     //this.operation(image, 'Upload');
+                    console.log('conoce')
+                    console.log(this.execute)
                     this.execute(UploadCommand(Graphics, image));
                 } 
             }
@@ -51,7 +60,7 @@ export default class Editor {
     execute(command) {
         this.executeHistory.push(command);
         command.execute();
-        console.log(`Executed command ${command.serialize()}`);
+        //console.log(`Executed command ${command.serialize()}`);
     }
 
    //TODO: change color to payload or args
