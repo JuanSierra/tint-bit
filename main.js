@@ -11,91 +11,11 @@ var editor = new Editor(window, account1);
 let scale = 1;
 let size = 8;
 
-function colorRegion(x, y) {
-  let c = document.getElementById("canvasBottom");
-  let ctx = c.getContext("2d");
-
-  let w = theImage.width;
-  let h = theImage.height;
-
-  var canvas = document.createElement("canvas");
-  canvas.width = theImage.width;
-  canvas.height = theImage.height;
-  var vctx = canvas.getContext("2d");
-  vctx.drawImage(theImage, 0, 0, w, h);
-
-  let imageData = vctx.getImageData(0, 0, w, h);
-  var x0 = parseInt(x / (size * scale));
-  var y0 = parseInt(y / (size * scale));
-  // examine every pixel,
-  // change any old rgb to the new-rgb
-  console.log(y0 * size + x0);
-  console.log(y0 * size + x0 + size * 4);
-
-  for (var x = x0 * size; x < x0 * size + size; x++) {
-    for (var y = y0 * size; y < y0 * size + size; y++) {
-      imageData.data[y * (w * 4) + x * 4] = 255;
-    }
-  }
-  /*
-    for (let i = y0*size+x0*size; i < (y0*size+x0*size)+size*4; i += 4) {
-
-        // is this pixel the old rgb?
-        if (imageData.data[i] == oldRed && imageData.data[i + 1] == oldGreen && imageData.data[i + 2] == oldBlue) {
-            // change to your new rgb
-            imageData.data[i] = newRed;
-            imageData.data[i + 1] = newGreen;
-            imageData.data[i + 2] = newBlue;
-        }
-        //let hexa = fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2]);
-        //let lum = calcLuminance(hexa);
-
-        //if(lum>0.3){
-		  imageData.data[i] = 255;
-		  imageData.data[i + 1] = 255;
-		  imageData.data[i + 2] = 0;
-          //dark++;
-        //}
-        //else
-          //clear++;
-        fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2])
-    }
-   */
-
-  vctx.putImageData(imageData, 0, 0);
-  //vctx.scale(scale, scale);
-
-  // Tile extract
-  var modified = canvas.toDataURL("image/png");
-  console.log(modified);
-  var tileCanvas = document.createElement("canvas");
-  tileCanvas.width = canvas.width * scale;
-  tileCanvas.height = canvas.height * scale;
-  var tilectx = tileCanvas.getContext("2d");
-  tilectx.imageSmoothingEnabled = false;
-  tilectx.mozImageSmoothingEnabled = false;
-  tilectx.webkitImageSmoothingEnabled = false;
-
-  tilectx.scale(scale, scale);
-  var modifiedImg = new Image();
-  modifiedImg.src = modified;
-
-  modifiedImg.onload = function (e) {
-    tilectx.drawImage(this, 0, 0);
-    var f = tilectx.getImageData(
-      x0 * size * scale,
-      y0 * size * scale,
-      size * scale,
-      size * scale
-    );
-    ctx.putImageData(f, x0 * size * scale, y0 * size * scale);
-  };
-}
 
 let cnv = document.getElementById("canvasTop");
 let ctx = cnv.getContext("2d");
 let isDrawing = false;
-
+/*
 cnv.addEventListener("mousedown", (e) => {
   isDrawing = true;
   //drawHelper(e)
@@ -107,7 +27,7 @@ cnv.addEventListener("mousedown", (e) => {
 
   colorRegion(mouseX, mouseY);
 });
-
+*/
 window.addEventListener("mouseup", (e) => {
   if (isDrawing === true) {
     isDrawing = false;

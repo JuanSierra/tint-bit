@@ -1,6 +1,7 @@
 import UI from './UI' 
 import PaletteCommand from './commands/paletteCommand' 
 import ZoomCommand from './commands/zoomCommand' 
+import TintCommand from './commands/tintCommand' 
 import Graphics from './Graphics';
 
 export default class Editor {
@@ -53,7 +54,17 @@ export default class Editor {
                     console.log(this.execute)
                     this.execute(UploadCommand(Graphics, image));
                 } 
-            }
+            },
+
+            "Tint":{
+                tintRegion: function(mouseX, mouseY){
+                    //this.operation(account1, 'ChangeColor', 'white');
+                    //console.log('updatePalette ' + palette);
+                    console.log('tint region');
+                    //console.log(editor.graphics)
+                    editor.execute(TintCommand(mouseX, mouseY, editor.graphics));
+                } 
+          },
         }
     }
 

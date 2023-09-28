@@ -9,6 +9,7 @@ export default class Graphics {
         this._canvas = canvas;
         this._top = top;
         this._scale = 1;
+        this._size = 8;
 
         Graphics.collection.set(name, this);
 
@@ -66,35 +67,35 @@ export default class Graphics {
         // examine every pixel,
         // change any old rgb to the new-rgb
         for (let i = 0; i < imageData.data.length; i += 4) {
-        // is this pixel the old rgb?
-        if (
-            imageData.data[i] == oldRed &&
-            imageData.data[i + 1] == oldGreen &&
-            imageData.data[i + 2] == oldBlue
-        ) {
-            // change to your new rgb
-            imageData.data[i] = newRed;
-            imageData.data[i + 1] = newGreen;
-            imageData.data[i + 2] = newBlue;
-        }
-        let hexa = this._fullColorHex(
-            imageData.data[i],
-            imageData.data[i + 1],
-            imageData.data[i + 2]
-        );
-        let lum = this._calcLuminance(hexa);
-    
-        if (lum > 0.3) {
-            imageData.data[i] = 255;
-            imageData.data[i + 1] = 0;
-            imageData.data[i + 2] = 0;
-            dark++;
-        } else clear++;
-        this._fullColorHex(
-            imageData.data[i],
-            imageData.data[i + 1],
-            imageData.data[i + 2]
-        );
+            // is this pixel the old rgb?
+            if (
+                imageData.data[i] == oldRed &&
+                imageData.data[i + 1] == oldGreen &&
+                imageData.data[i + 2] == oldBlue
+            ) {
+                // change to your new rgb
+                imageData.data[i] = newRed;
+                imageData.data[i + 1] = newGreen;
+                imageData.data[i + 2] = newBlue;
+            }
+            let hexa = this._fullColorHex(
+                imageData.data[i],
+                imageData.data[i + 1],
+                imageData.data[i + 2]
+            );
+            let lum = this._calcLuminance(hexa);
+        
+            if (lum > 0.3) {
+                imageData.data[i] = 255;
+                imageData.data[i + 1] = 0;
+                imageData.data[i + 2] = 0;
+                dark++;
+            } else clear++;
+            this._fullColorHex(
+                imageData.data[i],
+                imageData.data[i + 1],
+                imageData.data[i + 2]
+            );
         }
     
         ctx.putImageData(imageData, 0, 0);
@@ -102,6 +103,93 @@ export default class Graphics {
         console.log("dark:" + dark);
         console.log("clear:" + clear);
     }
+
+    
+    tintRegion(x, y) {
+        let c = this._canvas;//document.getElementById("canvasBottom");
+        let ctx = c.getContext("2d");
+    
+        let w = this._image.width;
+        let h = this._image.height;
+    
+        var canvas = document.createElement("canvas");
+        canvas.width = this._image.width;
+        canvas.height = this._image.height;
+        var vctx = canvas.getContext("2d");
+        vctx.drawImage(this._image, 0, 0, w, h);
+    
+        let imageData = vctx.getImageData(0, 0, w, h);
+        
+        var size = this._size;
+        var scale = this._scale;
+
+        var x0 = parseInt(x / (size * scale));
+        var y0 = parseInt(y / (size * scale));
+        // examine every pixel,
+        // change any old rgb to the new-rgb
+        console.log(y0 * size + x0);
+        console.log(y0 * size + x0 + size * 4);
+    
+        for (var x = x0 * size; x < x0 * size + size; x++) {
+            for (var y = y0 * size; y < y0 * size + size; y++) {
+                imageData.data[y * (w * 4) + x * 4] = 255;
+            }
+        }
+        /*
+        for (let i = y0*size+x0*size; i < (y0*size+x0*size)+size*4; i += 4) {
+    
+            // is this pixel the old rgb?
+            if (imageData.data[i] == oldRed && imageData.data[i + 1] == oldGreen && imageData.data[i + 2] == oldBlue) {
+                // change to your new rgb
+                imageData.data[i] = newRed;
+                imageData.data[i + 1] = newGreen;
+                imageData.data[i + 2] = newBlue;
+            }
+            //let hexa = fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2]);
+            //let lum = calcLuminance(hexa);
+    
+            //if(lum>0.3){
+                imageData.data[i] = 255;
+                imageData.data[i + 1] = 255;
+                imageData.data[i + 2] = 0;
+                //dark++;
+            //}
+            //else
+                //clear++;
+            fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2])
+        }
+        */
+    
+        vctx.putImageData(imageData, 0, 0);
+        //vctx.scale(scale, scale);
+    
+        // Tile extract
+        var modified = canvas.toDataURL("image/png");
+        console.log(modified);
+        var tileCanvas = document.createElement("canvas");
+        tileCanvas.width = canvas.width * scale;
+        tileCanvas.height = canvas.height * scale;
+        var tilectx = tileCanvas.getContext("2d");
+        tilectx.imageSmoothingEnabled = false;
+        tilectx.mozImageSmoothingEnabled = false;
+        tilectx.webkitImageSmoothingEnabled = false;
+    
+        tilectx.scale(scale, scale);
+        var modifiedImg = new Image();
+        modifiedImg.src = modified;
+    
+        modifiedImg.onload = function (e) {
+        tilectx.drawImage(this, 0, 0);
+        var f = tilectx.getImageData(
+            x0 * size * scale,
+            y0 * size * scale,
+            size * scale,
+            size * scale
+        );
+        ctx.putImageData(f, x0 * size * scale, y0 * size * scale);
+        };
+    }
+
 
     getComponent(name) {
         return this._componentMap[name];
