@@ -1,3 +1,8 @@
+const palettes = {
+  "pico":[ '#FF004D', '#FFA300', '#FFEC27', '#00E436', '#29ADFF', '#83769C', '#FF77A8', '#FFCCAA']
+};
+
+
 export default class Palette {
   constructor(window, element) {
     this.eventHandler = {};

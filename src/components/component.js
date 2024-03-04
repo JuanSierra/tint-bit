@@ -6,4 +6,8 @@ export default class Component {
     }
 
     getName = () => this.name;
+
+    getCanvas() {
+        return this.graphics.getCanvas();
+    }
 }

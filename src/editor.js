@@ -1,5 +1,5 @@
 import UI from './UI' 
-import PaletteCommand from './commands/paletteCommand' 
+import PaletteCommand from './commands/changePaletteCommand' 
 import ZoomCommand from './commands/zoomCommand' 
 import TintCommand from './commands/tintCommand' 
 import Graphics from './Graphics';

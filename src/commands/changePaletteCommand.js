@@ -8,21 +8,23 @@ import Command from './command'
     }
   }
 */
-export default function PaletteCommand(key, value) {
+export default function ChangePaletteCommand(key, value) {
 
     let oldValue;
 
-    const execute = () => {
-        if (mockupDB.hasOwnProperty(key)) {
+    const execute = (graphics, color) => {
+        /*if (mockupDB.hasOwnProperty(key)) {
             oldValue = mockupDB[key];
             mockupDB[key] = value;
-        }
+        }*/
+        //const paletteComponent = graphics.getComponent('PALETTE');
+        graphics.setColor(color);
     };
 
     const undo = () => {
-        if (oldValue) {
+        /*if (oldValue) {
             mockupDB[key] = oldValue;
-        }
+        }*/
     };
 
     return new Command(execute, undo, value);

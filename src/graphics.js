@@ -1,9 +1,10 @@
 import Zoom from './components/zoom'
+import Palette from './components/palette'
 
 export default class Graphics {
     constructor(name, canvas, top) {
         this.name = name;
-        this.color = "default";
+        this._color = "#FF0000";
         this._componentMap = {};
         this._image = null;
         this._canvas = canvas;
@@ -29,8 +30,6 @@ export default class Graphics {
     }
 
     loadImage(image) {
-        console.log('img')
-        console.log(image)
         this._image = image;
         this.recolorImage(255, 0, 0, 0, 255, 0);
     }
@@ -83,8 +82,8 @@ export default class Graphics {
                 imageData.data[i + 1],
                 imageData.data[i + 2]
             );
-            let lum = this._calcLuminance(hexa);
-        
+            let lum = this._calcLuminance(parseInt(hexa.toString(16),16));
+        /*
             if (lum > 0.3) {
                 imageData.data[i] = 255;
                 imageData.data[i + 1] = 0;
@@ -95,7 +94,7 @@ export default class Graphics {
                 imageData.data[i],
                 imageData.data[i + 1],
                 imageData.data[i + 2]
-            );
+            );*/
         }
     
         ctx.putImageData(imageData, 0, 0);
@@ -104,6 +103,9 @@ export default class Graphics {
         console.log("clear:" + clear);
     }
 
+    setColor(color) {
+        this._color = color;
+    }
     
     tintRegion(x, y) {
         let c = this._canvas;//document.getElementById("canvasBottom");
@@ -130,35 +132,44 @@ export default class Graphics {
         console.log(y0 * size + x0);
         console.log(y0 * size + x0 + size * 4);
     
+/*  TO RED
         for (var x = x0 * size; x < x0 * size + size; x++) {
             for (var y = y0 * size; y < y0 * size + size; y++) {
                 imageData.data[y * (w * 4) + x * 4] = 255;
             }
         }
-        /*
-        for (let i = y0*size+x0*size; i < (y0*size+x0*size)+size*4; i += 4) {
-    
+*/
+
+        
+        //for (let i = y0*size+x0*size; i < (y0*size+x0*size)+size*4; i += 4) {
+        for (let i = 0; i < imageData.data.length; i += 4) {
             // is this pixel the old rgb?
+            /*
             if (imageData.data[i] == oldRed && imageData.data[i + 1] == oldGreen && imageData.data[i + 2] == oldBlue) {
                 // change to your new rgb
-                imageData.data[i] = newRed;
-                imageData.data[i + 1] = newGreen;
-                imageData.data[i + 2] = newBlue;
+                imageData.data[i] = 0;
+                imageData.data[i + 1] = 255;
+                imageData.data[i + 2] = 0;
             }
-            //let hexa = fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2]);
-            //let lum = calcLuminance(hexa);
-    
-            //if(lum>0.3){
+*/
+
+
+            let hexa = this._fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2]);
+            let lum = this._calcLuminance(parseInt(hexa.toString(16),16));
+
+            if(lum<0.3){
                 imageData.data[i] = 255;
                 imageData.data[i + 1] = 255;
                 imageData.data[i + 2] = 0;
                 //dark++;
-            //}
+            }
             //else
                 //clear++;
-            fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2])
+           // fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2])
+
+
         }
-        */
+        
     
         vctx.putImageData(imageData, 0, 0);
         //vctx.scale(scale, scale);
@@ -198,6 +209,7 @@ export default class Graphics {
     _createComponents()
     {
         this._register(this._componentMap, new Zoom(this));
+        this._register(this._componentMap, new Palette(this));
     }
     _register(map, module) {
         map[module.getName()] = module;
@@ -219,13 +231,13 @@ export default class Graphics {
         return red + green + blue;
       };
 
-      _calcLuminance = function(rgb) {
+    _calcLuminance = function(rgb) {
         let r = (rgb & 0xff0000) >> 16;
         let g = (rgb & 0xff00) >> 8;
         let b = rgb & 0xff;
-      
+    
         return (r * 0.299 + g * 0.587 + b * 0.114) / 256;
-      }
+    }
   }
   
   Graphics.collection = new Map();

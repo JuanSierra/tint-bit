@@ -1,88 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css">
+
+<head>
+	<meta charset="UTF-8" />
+	<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="./style.css">
 	<link rel="stylesheet" href="https://unpkg.com/normalize.css@8.0.1/normalize.css">
 	<link rel="stylesheet" href="https://unpkg.com/concrete.css@2.0.3/concrete.css">
 	<link rel="stylesheet" href="https://unpkg.com/pyloncss@0.1.1/css/pylon.css">
-    <title>Vite App</title>
-  </head>
-  <body>
-  <hstack spacing=s>
-	<vstack spacing=m style="max-width:200px;">
-		<button id="select-image">Select Image</button>
-		
-		<hstack spacing=m> 
-			<span class="opcion-radio">
-				<input type="radio" id="A" name="zoom" value="1" checked>
-				<label for="A">1x</label>
-			</span>
-			<span class="opcion-radio">
-				<input type="radio" id="B" name="zoom" value="2">
-				<label for="B">2x</label>
-			</span>
-			<span class="opcion-radio">
-				<input type="radio" id="C" name="zoom" value="3">
-				<label for="C">3x</label>
-			</span>
-		</hstack>
-		
-		<select name="op" id="op">
-		  <option value="Option 1">Palette 1</option>
-		  <option value="Option 2">Palette 2</option>
-		  <option value="Option 3">Palette 3</option>
-		  <option value="Option 4">Palette 4</option>
-		</select>
-		
-		<table>
-		  <tbody>
-			<tr>
-			  <td><div></div></td>
-			  <td><div></div></td>
-			</tr>
-			<tr>
-			  <td><div></div></td>
-			  <td><div></div></td>
-			</tr>
-				<tr>
-			  <td><div></div></td>
-			  <td><div></div></td>
-			</tr>
-				<tr>
-			  <td><div></div></td>
-			  <td><div></div></td>
-			</tr>
-		  </tbody>
-		</table>
-		<spacer></spacer>
-		<label class="container">With scaling
-		  <input type="checkbox">
-		  <span class="checkmark"></span>
-		</label>
-		<button>Download</button>
-	  </vstack>
-	  <vstack>
-		<!--image id="img"></image-->
-		<div id="wrapper">
-			<canvas id="canvasBottom"></canvas>
-			<canvas id="canvasTop"></canvas>
-		</div>
-	  </vstack>
+	<title>Vite App</title>
+</head>
+
+<body>
+	<hstack spacing=s>
+		<vstack spacing=m style="max-width:200px;">
+			<button id="select-image">Select Image</button>
+
+			<hstack spacing=m>
+				<span class="opcion-radio">
+					<input type="radio" id="A" name="zoom" value="1" checked>
+					<label for="A">1x</label>
+				</span>
+				<span class="opcion-radio">
+					<input type="radio" id="B" name="zoom" value="2">
+					<label for="B">2x</label>
+				</span>
+				<span class="opcion-radio">
+					<input type="radio" id="C" name="zoom" value="3">
+					<label for="C">3x</label>
+				</span>
+			</hstack>
+
+			<select name="op" id="op">
+				<option value="Option 1">Palette 1</option>
+				<option value="Option 2">Palette 2</option>
+				<option value="Option 3">Palette 3</option>
+				<option value="Option 4">Palette 4</option>
+			</select>
+
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<div></div>
+						</td>
+						<td>
+							<div></div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div></div>
+						</td>
+						<td>
+							<div></div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div></div>
+						</td>
+						<td>
+							<div></div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<div></div>
+						</td>
+						<td>
+							<div></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<spacer></spacer>
+			<button>Download</button>
+			<label class="container">With scaling
+				<input type="checkbox">
+				<span class="checkmark"></span>
+			</label>
+		</vstack>
+		<vstack>
+			<!--image id="img"></image-->
+			<div id="wrapper">
+				<canvas id="canvasBottom"></canvas>
+				<canvas id="canvasTop"></canvas>
+			</div>
+		</vstack>
 	</hstack>
 
 	<dialog id="demo-modal">
 		<h3 class="modal-header">Tile Size</h3>
 		<div class="modal-body">
 			<hstack spacing=s align-x=center>
-			<div>
-				<input type="text" name="size" id="size" size="2" maxlength="2" value="32" focus><span>&nbsp;px</span>
-			</div>
-			<div>
-				<input type="text" name="size" id="size" size="2" maxlength="2" value="32"><span>&nbsp;px</span>
-			</div>
+				<div>
+					<input type="text" name="size" id="size" size="2" maxlength="2" value="32"
+						focus><span>&nbsp;px</span>
+				</div>
+				<div>
+					<input type="text" name="size" id="size" size="2" maxlength="2" value="32"><span>&nbsp;px</span>
+				</div>
 			</hstack>
 		</div>
 		<footer class="modal-footer">
@@ -91,6 +110,7 @@
 	</dialog>
 
 	<input id="photo-button" type="file" />
-    <script type="module" src="/main.js"></script>
-  </body>
+	<script type="module" src="/main.js"></script>
+</body>
+
 </html>
