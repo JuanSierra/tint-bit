@@ -31,7 +31,7 @@ export default class Graphics {
 
     loadImage(image) {
         this._image = image;
-        this.recolorImage(255, 0, 0, 0, 255, 0);
+        this.recolorImage(255, 0, 0, 0, 255, 0, true);
     }
 
     recolorImage(
@@ -40,11 +40,13 @@ export default class Graphics {
         oldBlue,
         newRed,
         newGreen,
-        newBlue) 
+        newBlue,
+        isLoading)
     {
         let w = this._image.width;
         let h = this._image.height;
-    
+        isLoading = isLoading || false;
+
         this._canvas.width = w * this._scale;
         this._canvas.height = h * this._scale;
         this._top.width = w * this._scale;
@@ -57,16 +59,22 @@ export default class Graphics {
     
         ctx.scale(this._scale, this._scale);
         // draw the image on the temporary canvas
-        ctx.drawImage(this._image, 0, 0, w, h);
+        //if(isLoading)
+        {
+            ctx.drawImage(this._image, 0, 0, w, h);
+        }
     
         // pull the entire image into an array of pixel data
         let imageData = ctx.getImageData(0, 0, w, h);
+        console.log(imageData.data)
         let dark = 0;
         let clear = 0;
         // examine every pixel,
         // change any old rgb to the new-rgb
         for (let i = 0; i < imageData.data.length; i += 4) {
             // is this pixel the old rgb?
+            
+            /* 
             if (
                 imageData.data[i] == oldRed &&
                 imageData.data[i + 1] == oldGreen &&
@@ -77,13 +85,15 @@ export default class Graphics {
                 imageData.data[i + 1] = newGreen;
                 imageData.data[i + 2] = newBlue;
             }
+
+       
             let hexa = this._fullColorHex(
                 imageData.data[i],
                 imageData.data[i + 1],
                 imageData.data[i + 2]
             );
             let lum = this._calcLuminance(parseInt(hexa.toString(16),16));
-        /*
+        
             if (lum > 0.3) {
                 imageData.data[i] = 255;
                 imageData.data[i + 1] = 0;
@@ -129,51 +139,34 @@ export default class Graphics {
         var y0 = parseInt(y / (size * scale));
         // examine every pixel,
         // change any old rgb to the new-rgb
-        console.log(y0 * size + x0);
-        console.log(y0 * size + x0 + size * 4);
+        console.log('medidas');
+        console.log(x);
+        console.log(y);
+        console.log(x0);
+        console.log(y0);
     
-/*  TO RED
-        for (var x = x0 * size; x < x0 * size + size; x++) {
+
+        for (var x = x0 * size; x < x0 * size + size; x++ ) {
             for (var y = y0 * size; y < y0 * size + size; y++) {
-                imageData.data[y * (w * 4) + x * 4] = 255;
-            }
-        }
-*/
-
-        
-        //for (let i = y0*size+x0*size; i < (y0*size+x0*size)+size*4; i += 4) {
-        for (let i = 0; i < imageData.data.length; i += 4) {
-            // is this pixel the old rgb?
-            /*
-            if (imageData.data[i] == oldRed && imageData.data[i + 1] == oldGreen && imageData.data[i + 2] == oldBlue) {
-                // change to your new rgb
-                imageData.data[i] = 0;
-                imageData.data[i + 1] = 255;
-                imageData.data[i + 2] = 0;
-            }
-*/
-
-
-            let hexa = this._fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2]);
-            let lum = this._calcLuminance(parseInt(hexa.toString(16),16));
-
-            if(lum<0.3){
-                imageData.data[i] = 255;
-                imageData.data[i + 1] = 255;
-                imageData.data[i + 2] = 0;
-                //dark++;
-            }
-            //else
-                //clear++;
-           // fullColorHex(imageData.data[i], imageData.data[i+1], imageData.data[i+2])
-
-
-        }
-        
+                let index = y * (w * 4) + x * 4;
+                let hexa = this._fullColorHex(imageData.data[index], imageData.data[index+1], imageData.data[index+2]);
+                let lum = this._calcLuminance(parseInt(hexa.toString(16),16));
     
+                if(lum < 0.3){
+                    imageData.data[index] = 255;
+                    imageData.data[index + 1] = 255;
+                    imageData.data[index + 2] = 0;
+                    //dark++;
+                }
+                
+                //imageData.data[y * (w * 4) + x * 2] = 255;
+            }
+        }
+
         vctx.putImageData(imageData, 0, 0);
         //vctx.scale(scale, scale);
     
+
         // Tile extract
         var modified = canvas.toDataURL("image/png");
         console.log(modified);
@@ -188,16 +181,19 @@ export default class Graphics {
         tilectx.scale(scale, scale);
         var modifiedImg = new Image();
         modifiedImg.src = modified;
-    
+
+        var changeImage = (newImage) => { this._image = newImage; }
+
         modifiedImg.onload = function (e) {
-        tilectx.drawImage(this, 0, 0);
-        var f = tilectx.getImageData(
-            x0 * size * scale,
-            y0 * size * scale,
-            size * scale,
-            size * scale
-        );
-        ctx.putImageData(f, x0 * size * scale, y0 * size * scale);
+            changeImage(this);
+            tilectx.drawImage(this, 0, 0);
+            var f = tilectx.getImageData(
+                x0 * size * scale,
+                y0 * size * scale,
+                size * scale,
+                size * scale
+            );
+            ctx.putImageData(f, x0 * size * scale, y0 * size * scale);
         };
     }
 
@@ -211,6 +207,7 @@ export default class Graphics {
         this._register(this._componentMap, new Zoom(this));
         this._register(this._componentMap, new Palette(this));
     }
+
     _register(map, module) {
         map[module.getName()] = module;
     }
