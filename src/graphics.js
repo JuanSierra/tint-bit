@@ -1,5 +1,6 @@
 import Zoom from './components/zoom'
 import Palette from './components/palette'
+import Tint from './components/tint'
 
 export default class Graphics {
     constructor(name, canvas, top) {
@@ -29,88 +30,40 @@ export default class Graphics {
         this._scale = value;
     }
 
+    get size(){
+        return this._size;
+    }
+
+    set size(value) {
+        let val = parseInt(value, 10);
+        if (!isNaN(val) && val > 0) {
+            this._size = val;
+        }
+    }
+
     loadImage(image) {
         this._image = image;
         this.recolorImage(255, 0, 0, 0, 255, 0, true);
     }
 
-    recolorImage(
-        oldRed,
-        oldGreen,
-        oldBlue,
-        newRed,
-        newGreen,
-        newBlue,
-        isLoading)
-    {
+    recolorImage() {
+        if (!this._image) return;
+
         let w = this._image.width;
         let h = this._image.height;
-        isLoading = isLoading || false;
 
         this._canvas.width = w * this._scale;
         this._canvas.height = h * this._scale;
         this._top.width = w * this._scale;
         this._top.height = h * this._scale;
-    
+
         let ctx = this._canvas.getContext("2d");
         ctx.imageSmoothingEnabled = false;
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
-    
-        ctx.scale(this._scale, this._scale);
-        // draw the image on the temporary canvas
-        //if(isLoading)
-        {
-            ctx.drawImage(this._image, 0, 0, w, h);
-        }
-    
-        // pull the entire image into an array of pixel data
-        let imageData = ctx.getImageData(0, 0, w, h);
-        console.log(imageData.data)
-        let dark = 0;
-        let clear = 0;
-        // examine every pixel,
-        // change any old rgb to the new-rgb
-        for (let i = 0; i < imageData.data.length; i += 4) {
-            // is this pixel the old rgb?
-            
-            /* 
-            if (
-                imageData.data[i] == oldRed &&
-                imageData.data[i + 1] == oldGreen &&
-                imageData.data[i + 2] == oldBlue
-            ) {
-                // change to your new rgb
-                imageData.data[i] = newRed;
-                imageData.data[i + 1] = newGreen;
-                imageData.data[i + 2] = newBlue;
-            }
 
-       
-            let hexa = this._fullColorHex(
-                imageData.data[i],
-                imageData.data[i + 1],
-                imageData.data[i + 2]
-            );
-            let lum = this._calcLuminance(parseInt(hexa.toString(16),16));
-        
-            if (lum > 0.3) {
-                imageData.data[i] = 255;
-                imageData.data[i + 1] = 0;
-                imageData.data[i + 2] = 0;
-                dark++;
-            } else clear++;
-            this._fullColorHex(
-                imageData.data[i],
-                imageData.data[i + 1],
-                imageData.data[i + 2]
-            );*/
-        }
-    
-        ctx.putImageData(imageData, 0, 0);
-    
-        console.log("dark:" + dark);
-        console.log("clear:" + clear);
+        ctx.clearRect(0, 0, this._canvas.width, this._canvas.height);
+        ctx.drawImage(this._image, 0, 0, this._canvas.width, this._canvas.height);
     }
 
     setColor(color) {
@@ -118,83 +71,56 @@ export default class Graphics {
     }
     
     tintRegion(x, y) {
-        let c = this._canvas;//document.getElementById("canvasBottom");
+        if (!this._image) return;
+
+        let c = this._canvas;
         let ctx = c.getContext("2d");
     
         let w = this._image.width;
         let h = this._image.height;
     
-        var canvas = document.createElement("canvas");
-        canvas.width = this._image.width;
-        canvas.height = this._image.height;
-        var vctx = canvas.getContext("2d");
+        let canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        let vctx = canvas.getContext("2d");
         vctx.drawImage(this._image, 0, 0, w, h);
     
         let imageData = vctx.getImageData(0, 0, w, h);
         
-        var size = this._size;
-        var scale = this._scale;
+        let size = this._size;
+        let scale = this._scale;
 
-        var x0 = parseInt(x / (size * scale));
-        var y0 = parseInt(y / (size * scale));
-        // examine every pixel,
-        // change any old rgb to the new-rgb
-        console.log('medidas');
-        console.log(x);
-        console.log(y);
-        console.log(x0);
-        console.log(y0);
-    
+        let x0 = Math.floor(x / (size * scale));
+        let y0 = Math.floor(y / (size * scale));
 
-        for (var x = x0 * size; x < x0 * size + size; x++ ) {
-            for (var y = y0 * size; y < y0 * size + size; y++) {
-                let index = y * (w * 4) + x * 4;
+        let startX = x0 * size;
+        let startY = y0 * size;
+        let endX = Math.min(startX + size, w);
+        let endY = Math.min(startY + size, h);
+
+        for (let px = startX; px < endX; px++) {
+            for (let py = startY; py < endY; py++) {
+                let index = py * (w * 4) + px * 4;
                 let hexa = this._fullColorHex(imageData.data[index], imageData.data[index+1], imageData.data[index+2]);
-                let lum = this._calcLuminance(parseInt(hexa.toString(16),16));
-    
-                if(lum < 0.3){
+                let lum = this._calcLuminance(parseInt(hexa.toString(16), 16));
+
+                if (lum < 0.3) {
                     imageData.data[index] = 255;
                     imageData.data[index + 1] = 255;
                     imageData.data[index + 2] = 0;
-                    //dark++;
                 }
-                
-                //imageData.data[y * (w * 4) + x * 2] = 255;
             }
         }
 
         vctx.putImageData(imageData, 0, 0);
-        //vctx.scale(scale, scale);
-    
 
-        // Tile extract
-        var modified = canvas.toDataURL("image/png");
-        console.log(modified);
-        var tileCanvas = document.createElement("canvas");
-        tileCanvas.width = canvas.width * scale;
-        tileCanvas.height = canvas.height * scale;
-        var tilectx = tileCanvas.getContext("2d");
-        tilectx.imageSmoothingEnabled = false;
-        tilectx.mozImageSmoothingEnabled = false;
-        tilectx.webkitImageSmoothingEnabled = false;
-    
-        tilectx.scale(scale, scale);
-        var modifiedImg = new Image();
-        modifiedImg.src = modified;
+        this._image = canvas;
 
-        var changeImage = (newImage) => { this._image = newImage; }
-
-        modifiedImg.onload = function (e) {
-            changeImage(this);
-            tilectx.drawImage(this, 0, 0);
-            var f = tilectx.getImageData(
-                x0 * size * scale,
-                y0 * size * scale,
-                size * scale,
-                size * scale
-            );
-            ctx.putImageData(f, x0 * size * scale, y0 * size * scale);
-        };
+        ctx.imageSmoothingEnabled = false;
+        ctx.mozImageSmoothingEnabled = false;
+        ctx.webkitImageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.drawImage(canvas, 0, 0, c.width, c.height);
     }
 
 
@@ -206,6 +132,7 @@ export default class Graphics {
     {
         this._register(this._componentMap, new Zoom(this));
         this._register(this._componentMap, new Palette(this));
+        this._register(this._componentMap, new Tint(this));
     }
 
     _register(map, module) {

@@ -1,4 +1,4 @@
-import Command from './command'
+import Command from './command.js'
 
 export default function TintCommand(mouseX, mouseY, graphics) {
 

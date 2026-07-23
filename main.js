@@ -44,15 +44,18 @@ cnv.addEventListener("mousemove", (e) => {
 });
 
 function drawHelper(e) {
-  ctx.clearRect(0, 0, cnv.width * account1.scale, cnv.height *  account1.scale);
-  let posX = cnv.getBoundingClientRect().left;
-  let posY = cnv.getBoundingClientRect().top;
+  let rect = cnv.getBoundingClientRect();
+  let scaleX = rect.width ? (cnv.width / rect.width) : 1;
+  let scaleY = rect.height ? (cnv.height / rect.height) : 1;
 
-  let mouseX = parseInt(e.clientX - posX);
-  let mouseY = parseInt(e.clientY - posY);
-  let prop = size *  account1.scale;
-  let newX = parseInt(mouseX / prop) * prop;
-  let newY = parseInt(mouseY / prop) * prop;
+  ctx.clearRect(0, 0, cnv.width, cnv.height);
+
+  let mouseX = parseInt((e.clientX - rect.left) * scaleX);
+  let mouseY = parseInt((e.clientY - rect.top) * scaleY);
+
+  let prop = account1.size * account1.scale;
+  let newX = Math.floor(mouseX / prop) * prop;
+  let newY = Math.floor(mouseY / prop) * prop;
 
   ctx.fillStyle = "rgb(200,0,0)";
   ctx.strokeRect(newX, newY, prop, prop);

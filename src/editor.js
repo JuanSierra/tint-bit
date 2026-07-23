@@ -2,6 +2,7 @@ import UI from './UI'
 import PaletteCommand from './commands/changePaletteCommand' 
 import ZoomCommand from './commands/zoomCommand' 
 import TintCommand from './commands/tintCommand' 
+import ChangeTintSizeCommand from './commands/changeTintSizeCommand'
 import Graphics from './Graphics';
 
 export default class Editor {
@@ -63,7 +64,11 @@ export default class Editor {
                     console.log('tint region');
                     //console.log(editor.graphics)
                     editor.execute(TintCommand(mouseX, mouseY, editor.graphics));
-                } 
+                },
+                changeSize: function(size){
+                    console.log('change tint size');
+                    editor.execute(ChangeTintSizeCommand(size, editor.graphics));
+                }
           },
         }
     }
