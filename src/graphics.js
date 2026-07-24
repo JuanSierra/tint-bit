@@ -98,6 +98,8 @@ export default class Graphics {
         let endX = Math.min(startX + size, w);
         let endY = Math.min(startY + size, h);
 
+        let [r, g, b] = this._parseColor(this._color);
+
         for (let px = startX; px < endX; px++) {
             for (let py = startY; py < endY; py++) {
                 let index = py * (w * 4) + px * 4;
@@ -105,9 +107,9 @@ export default class Graphics {
                 let lum = this._calcLuminance(parseInt(hexa.toString(16), 16));
 
                 if (lum < 0.3) {
-                    imageData.data[index] = 255;
-                    imageData.data[index + 1] = 255;
-                    imageData.data[index + 2] = 0;
+                    imageData.data[index] = r;
+                    imageData.data[index + 1] = g;
+                    imageData.data[index + 2] = b;
                 }
             }
         }
@@ -161,6 +163,27 @@ export default class Graphics {
         let b = rgb & 0xff;
     
         return (r * 0.299 + g * 0.587 + b * 0.114) / 256;
+    }
+
+    _parseColor(color) {
+        if (!color) return [255, 0, 0];
+        if (typeof color === 'string' && color.startsWith('#')) {
+            let hex = color.slice(1);
+            if (hex.length === 3) {
+                hex = hex.split('').map(c => c + c).join('');
+            }
+            if (hex.length === 6) {
+                let num = parseInt(hex, 16);
+                return [(num >> 16) & 255, (num >> 8) & 255, num & 255];
+            }
+        }
+        if (typeof color === 'string') {
+            let match = color.match(/\d+/g);
+            if (match && match.length >= 3) {
+                return [parseInt(match[0], 10), parseInt(match[1], 10), parseInt(match[2], 10)];
+            }
+        }
+        return [255, 0, 0];
     }
   }
   

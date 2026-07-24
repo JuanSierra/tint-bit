@@ -1,5 +1,5 @@
 import UI from './UI' 
-import PaletteCommand from './commands/changePaletteCommand' 
+import ChangePaletteCommand from './commands/changePaletteCommand' 
 import ZoomCommand from './commands/zoomCommand' 
 import TintCommand from './commands/tintCommand' 
 import ChangeTintSizeCommand from './commands/changeTintSizeCommand'
@@ -30,8 +30,11 @@ export default class Editor {
         return {
             "Palette": {
               updatePalette: function(palette){
-                //this.operation(account1, 'ChangeColor', 'white');
                 console.log('updatePalette ' + palette);
+              },
+              changeColor: function(color){
+                console.log('change color: ' + color);
+                editor.execute(ChangePaletteCommand(color, editor.graphics));
               }
             },
 

@@ -2,6 +2,7 @@ export default class Tint {
     constructor(window, element) {
       this.eventHandler = {};
       this.window = window;
+      this._isMouseDown = false;
 
       this._els = {
         canvasTop: element.getElementById("canvasTop"),
@@ -11,8 +12,9 @@ export default class Tint {
   
     addEvent(actions) {
       this.actions = actions;
-      console.log("adding tint events")
       this._els.canvasTop.addEventListener("mousedown", this._mouseDown.bind(this));
+      this._els.canvasTop.addEventListener("mousemove", this._mouseMove.bind(this));
+      this.window.addEventListener("mouseup", this._mouseUp.bind(this));
       if (this._els.tintSize) {
         this._els.tintSize.addEventListener("change", this._changeSize.bind(this));
         this._els.tintSize.addEventListener("input", this._changeSize.bind(this));
@@ -20,6 +22,23 @@ export default class Tint {
     }
 
     _mouseDown(event) {
+        this._isMouseDown = true;
+        this._tintAtEvent(event);
+    }
+
+    _mouseMove(event) {
+        if (!this._isMouseDown && event.buttons !== 1) {
+            return;
+        }
+
+        this._tintAtEvent(event);
+    }
+
+    _mouseUp() {
+        this._isMouseDown = false;
+    }
+
+    _tintAtEvent(event) {
         let rect = this._els.canvasTop.getBoundingClientRect();
         let scaleX = rect.width ? (this._els.canvasTop.width / rect.width) : 1;
         let scaleY = rect.height ? (this._els.canvasTop.height / rect.height) : 1;

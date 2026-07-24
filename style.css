@@ -26,14 +26,38 @@ body {
 	left:-9999px;
 }
 
-td>div{
-  width:30px;
-  height:30px;
-  background-color: #ccc;
-  margin: 0 auto;
+#palette-scroll {
+  max-height: 182px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 6px 4px 0;
+  display: flex;
+  justify-content: space-around;
 }
 
-td {
+#palette-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 36px);
+  gap: 10px;
+  align-items: start;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.palette-swatch {
+  width: 36px;
+  height: 36px;
+  background-color: #ccc;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.palette-swatch:hover {
+   border: 1px solid black;
+}
+
+.palette-swatch.selected {
+  border: 2px solid #000;
 }
 
 /*w3c custom check*/
