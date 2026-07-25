@@ -10,23 +10,22 @@ import Command from './command'
 */
 export default function UploadCommand(graphics, image) {
 
-    let oldValue;
+    let oldImage;
+    let oldSourceImage;
 
     const execute = () => {
-        /*if (mockupDB.hasOwnProperty(key)) {
-            oldValue = mockupDB[key];
-            mockupDB[key] = value;
-        }*/
-        //const loader = graphics.getComponent("UPLOAD");
-        oldValue = image;
+        oldImage = graphics._image;
+        oldSourceImage = graphics._sourceImage;
         graphics.loadImage(image);
         // remove undo stack ?
     };
 
     const undo = () => {
-        /*if (oldValue) {
-            mockupDB[key] = oldValue;
-        }*/
+        if (oldImage) {
+            graphics._image = oldImage;
+            graphics._sourceImage = oldSourceImage;
+            graphics.recolorImage();
+        }
     };
 
     return new Command(execute, undo, image);

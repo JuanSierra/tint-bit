@@ -36,6 +36,9 @@ export default class Tint {
 
     _mouseUp() {
         this._isMouseDown = false;
+        if (this.actions && typeof this.actions.endTint === "function") {
+            this.actions.endTint();
+        }
     }
 
     _tintAtEvent(event) {
