@@ -8,6 +8,7 @@ export default class Graphics {
         this._color = "#FF0000";
         this._componentMap = {};
         this._image = null;
+        this._sourceImage = null;
         this._canvas = canvas;
         this._top = top;
         this._scale = 1;
@@ -42,6 +43,7 @@ export default class Graphics {
     }
 
     loadImage(image) {
+        this._sourceImage = image;
         this._image = image;
         this.recolorImage(255, 0, 0, 0, 255, 0, true);
     }
@@ -83,7 +85,18 @@ export default class Graphics {
         canvas.width = w;
         canvas.height = h;
         let vctx = canvas.getContext("2d");
+
+        // Start from the current working image so prior tint edits remain.
+        // The original loaded image is only used for comparison.
         vctx.drawImage(this._image, 0, 0, w, h);
+
+        let sourceCanvas = document.createElement("canvas");
+        sourceCanvas.width = w;
+        sourceCanvas.height = h;
+        let sourceCtx = sourceCanvas.getContext("2d");
+        let sourceImage = this._sourceImage || this._image;
+        sourceCtx.drawImage(sourceImage, 0, 0, w, h);
+        let sourceImageData = sourceCtx.getImageData(0, 0, w, h);
     
         let imageData = vctx.getImageData(0, 0, w, h);
         
@@ -103,8 +116,12 @@ export default class Graphics {
         for (let px = startX; px < endX; px++) {
             for (let py = startY; py < endY; py++) {
                 let index = py * (w * 4) + px * 4;
-                let hexa = this._fullColorHex(imageData.data[index], imageData.data[index+1], imageData.data[index+2]);
-                let lum = this._calcLuminance(parseInt(hexa.toString(16), 16));
+                let sourceHexa = this._fullColorHex(
+                    sourceImageData.data[index],
+                    sourceImageData.data[index + 1],
+                    sourceImageData.data[index + 2]
+                );
+                let lum = this._calcLuminance(parseInt(sourceHexa.toString(16), 16));
 
                 if (lum < 0.3) {
                     imageData.data[index] = r;
