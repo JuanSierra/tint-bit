@@ -13,6 +13,7 @@ export default class Graphics {
         this._top = top;
         this._scale = 1;
         this._size = 8;
+        this._tintLight = false;
 
         Graphics.collection.set(name, this);
 
@@ -40,6 +41,14 @@ export default class Graphics {
         if (!isNaN(val) && val > 0) {
             this._size = val;
         }
+    }
+
+    get tintLight() {
+        return this._tintLight;
+    }
+
+    set tintLight(value) {
+        this._tintLight = Boolean(value);
     }
 
     loadImage(image) {
@@ -123,7 +132,8 @@ export default class Graphics {
                 );
                 let lum = this._calcLuminance(parseInt(sourceHexa.toString(16), 16));
 
-                if (lum < 0.3) {
+                var change = this._tintLight ? lum < 0.3 : lum > 0.3;
+                if (change) {
                     imageData.data[index] = r;
                     imageData.data[index + 1] = g;
                     imageData.data[index + 2] = b;

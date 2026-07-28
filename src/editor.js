@@ -3,6 +3,7 @@ import ChangePaletteCommand from './commands/changePaletteCommand'
 import ZoomCommand from './commands/zoomCommand' 
 import TintCommand from './commands/tintCommand' 
 import ChangeTintSizeCommand from './commands/changeTintSizeCommand'
+import ChangeToleranceCommand from './commands/changeToleranceCommand'
 import UploadCommand from './commands/uploadCommand'
 import UndoCommand from './commands/undoCommand'
 import Graphics from './Graphics';
@@ -81,6 +82,13 @@ export default class Editor {
                         editor._activeTintCmd = null;
                     }
                     editor.execute(ChangeTintSizeCommand(size, editor.graphics));
+                },
+                changeTolerance: function(value){
+                    if (editor._activeTintCmd) {
+                        editor.executeHistory.push(editor._activeTintCmd);
+                        editor._activeTintCmd = null;
+                    }
+                    editor.execute(ChangeToleranceCommand(value, editor.graphics));
                 }
           },
         }
