@@ -34,8 +34,10 @@
 
 			<div>
 				<label for="tint-tolerance" style="font-size: 0.9em;">
-					<input type="checkbox" id="tint-tolerance" name="tint-tolerance">
-					Tint light pixels
+					<label class="container">Dark pixels
+						<input type="checkbox" id="tint-tolerance" name="tint-tolerance">
+						<span class="checkmark"></span>
+					</label>
 				</label>
 			</div>
 
@@ -55,9 +57,9 @@
 				<div id="palette-grid"></div>
 			</div>
 			<spacer></spacer>
-			<button>Download</button>
+			<button id="download-btn">Download</button>
 			<label class="container">With scaling
-				<input type="checkbox">
+				<input type="checkbox" id="with-scaling">
 				<span class="checkmark"></span>
 			</label>
 		</vstack>

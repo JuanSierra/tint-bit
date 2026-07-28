@@ -90,7 +90,32 @@ export default class Editor {
                     }
                     editor.execute(ChangeToleranceCommand(value, editor.graphics));
                 }
-          },
+            },
+
+            "Download": {
+                download: function(withScaling) {
+                    if (!editor.graphics._image) return;
+                    
+                    let canvas = document.createElement("canvas");
+                    let ctx = canvas.getContext("2d");
+                    
+                    if (withScaling) {
+                        canvas.width = editor.graphics._canvas.width;
+                        canvas.height = editor.graphics._canvas.height;
+                        ctx.imageSmoothingEnabled = false;
+                        ctx.drawImage(editor.graphics._canvas, 0, 0);
+                    } else {
+                        canvas.width = editor.graphics._sourceImage.width;
+                        canvas.height = editor.graphics._sourceImage.height;
+                        ctx.drawImage(editor.graphics._image, 0, 0);
+                    }
+                    
+                    let link = document.createElement("a");
+                    link.download = "tint-bit-image.png";
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                }
+            },
         }
     }
 
