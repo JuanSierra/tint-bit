@@ -1,5 +1,13 @@
 
 [
     {"name":"Berry Nebula","author":"LostInIndigo","colors":["6ceded","6cb9c9","6d85a5","6e5181","6f1d5c","4f1446","2e0a30","0d001a","d1b3ff","ff8e65"]},
-    {"name":"Greyt-bit","author":"skeddles","colors":["574368","8488d3","cfd3c1","f8c868","8ddb34","69cfef","d1b3ff","ff8e65"]}
+    {"name":"Greyt-bit","author":"skeddles","colors":["574368","8488d3","cfd3c1","f8c868","8ddb34","69cfef","d1b3ff","ff8e65"]},
+    {"name":"Ammo-8","author":"","colors":["040c06","112318","1e3a29","305d42","4d8061","89a257","bedc7f","eeffcc"]},
+    {"name":"PICO-8","author":"","colors":["000000","1D2B53","7E2553","008751","AB5236","5F574F","C2C3C7","FFF1E8","FF004D","FFA300","FFEC27","00E436","29ADFF","83769C","FF77A8","FFCCAA"]},
+    {"name":"Moonlight GB","author":"Tofu","colors":["0f052d","203671","36868f","5fc75d"]},
+    {"name":"Paper 8","author":"Frosty Rabbid 🐇","colors":["1f244b","654053","a8605d","d1a67e","f6e79c","b6cf8e","60ae7b","3c6b64"]},
+    {"name":"Cyclope6","author":"Naym","colors":["411d31","631b34","32535f","0b8a8f","0eaf9b","30e1b9"]},
+    {"name":"Gold GB","author":"Isa","colors":["210b1b","4d222c","9d654c","cfab51"]},
+    {"name":"Neon Night Sky","author":"SoundsDotZip","colors":["131626","4d4d80","e6a1cf","ffe6ea"]},
+    {"name":"Look of Horror","author":"ChuchuCasual","colors":["0a202f","302d6a","871c3e","d32836"]}
 ]
