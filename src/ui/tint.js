@@ -7,7 +7,8 @@ export default class Tint {
       this._els = {
         canvasTop: element.getElementById("canvasTop"),
         tintSize: element.getElementById("tint-size"),
-        tintTolerance: element.getElementById("tint-tolerance")
+        tintTolerance: element.getElementById("tint-tolerance"),
+        tintGap: element.getElementById("tint-gap")
       };
     }
   
@@ -22,6 +23,10 @@ export default class Tint {
       }
       if (this._els.tintTolerance) {
         this._els.tintTolerance.addEventListener("change", this._changeTolerance.bind(this));
+      }
+      if (this._els.tintGap) {
+        this._els.tintGap.addEventListener("change", this._changeGap.bind(this));
+        this._els.tintGap.addEventListener("input", this._changeGap.bind(this));
       }
     }
 
@@ -66,6 +71,13 @@ export default class Tint {
     _changeTolerance(event) {
         if (this.actions && typeof this.actions.changeTolerance === "function") {
             this.actions.changeTolerance(event.target.checked);
+        }
+    }
+
+    _changeGap(event) {
+        let val = parseInt(event.target.value, 10);
+        if (!isNaN(val) && val >= 0) {
+            this.actions.changeGap(val);
         }
     }
   }

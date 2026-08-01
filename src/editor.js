@@ -89,6 +89,9 @@ export default class Editor {
                         editor._activeTintCmd = null;
                     }
                     editor.execute(ChangeToleranceCommand(value, editor.graphics));
+                },
+                changeGap: function(value){
+                    editor.graphics.gap = value;
                 }
             },
 

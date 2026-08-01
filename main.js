@@ -57,7 +57,8 @@ function drawHelper(e) {
   let newX = Math.floor(mouseX / prop) * prop;
   let newY = Math.floor(mouseY / prop) * prop;
 
-  ctx.fillStyle = "rgb(200,0,0)";
+  //ctx.fillStyle = "rgb(200,0,0)";
+  ctx.strokeStyle = "#FFA300";
   ctx.strokeRect(newX, newY, prop, prop);
 }
 
@@ -98,6 +99,34 @@ function safeImage(file) {
 function setImage2() {
   btn.click();
 }
+
+// Sample images
+const sampleConfigs = [
+  { size: 12, gap: 0 },
+  { size: 16, gap: 0 },
+  { size: 16, gap: 2 }
+];
+
+for (let i = 1; i <= 3; i++) {
+  const sampleBtn = document.getElementById(`sample-${i}`);
+  if (sampleBtn) {
+    sampleBtn.addEventListener("click", () => {
+      const config = sampleConfigs[i - 1];
+      account1.size = config.size;
+      account1.gap = config.gap;
+      if (document.getElementById("tint-size")) {
+        document.getElementById("tint-size").value = config.size;
+      }
+      if (document.getElementById("tint-gap")) {
+        document.getElementById("tint-gap").value = config.gap;
+      }
+      const reader = new Image();
+      reader.addEventListener("load", () => account1.loadImage(reader));
+      reader.src = `./assets/sample${i}.png`;
+    });
+  }
+}
+
 
 // Dialog
 

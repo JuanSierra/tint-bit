@@ -13,6 +13,7 @@ export default class Graphics {
         this._top = top;
         this._scale = 1;
         this._size = 8;
+        this._gap = 0;
         this._tintLight = false;
 
         Graphics.collection.set(name, this);
@@ -41,6 +42,28 @@ export default class Graphics {
         if (!isNaN(val) && val > 0) {
             this._size = val;
         }
+    }
+
+    get gap(){
+        return this._gap;
+    }
+
+    set gap(value) {
+        let val = parseInt(value, 10);
+        if (!isNaN(val) && val >= 0) {
+            this._gap = val;
+        }
+    }
+
+    get gridStep() {
+        return this._size + this._gap;
+    }
+
+    snapToGrid(position) {
+        let step = this.gridStep;
+        if (step <= 0) return 0;
+
+        return Math.floor(position / step) * step;
     }
 
     get tintLight() {
@@ -109,16 +132,12 @@ export default class Graphics {
     
         let imageData = vctx.getImageData(0, 0, w, h);
         
-        let size = this._size;
         let scale = this._scale;
 
-        let x0 = Math.floor(x / (size * scale));
-        let y0 = Math.floor(y / (size * scale));
-
-        let startX = x0 * size;
-        let startY = y0 * size;
-        let endX = Math.min(startX + size, w);
-        let endY = Math.min(startY + size, h);
+        let startX = this.snapToGrid(x / scale);
+        let startY = this.snapToGrid(y / scale);
+        let endX = Math.min(startX + this._size, w);
+        let endY = Math.min(startY + this._size, h);
 
         let [r, g, b] = this._parseColor(this._color);
 

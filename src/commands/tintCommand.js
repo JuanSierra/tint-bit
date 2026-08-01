@@ -8,11 +8,10 @@ export default function TintCommand(graphics) {
     const executeRegion = (mouseX, mouseY) => {
         if (!graphics) return;
 
-        let size = graphics.size;
         let scale = graphics.scale;
-        let x0 = Math.floor(mouseX / (size * scale));
-        let y0 = Math.floor(mouseY / (size * scale));
-        let tileKey = `${x0},${y0}`;
+        let snappedX = graphics.snapToGrid(mouseX / scale);
+        let snappedY = graphics.snapToGrid(mouseY / scale);
+        let tileKey = `${snappedX},${snappedY}`;
 
         if (tileKey === lastTileKey) {
             return;
