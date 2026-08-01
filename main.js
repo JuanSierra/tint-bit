@@ -1,6 +1,6 @@
-import Editor from './src/Editor' 
-import Graphics from './src/Graphics' 
-import { operations } from './src/operations.js' 
+import Editor from './src/Editor'
+import Graphics from './src/Graphics'
+import { operations } from './src/operations.js'
 
 const account1 = new Graphics('canvas1', document.getElementById("canvasBottom"), document.getElementById("canvasTop"));
 
@@ -44,6 +44,8 @@ cnv.addEventListener("mousemove", (e) => {
 });
 
 function drawHelper(e) {
+  if (!account1._image) return;
+
   let rect = cnv.getBoundingClientRect();
   let scaleX = rect.width ? (cnv.width / rect.width) : 1;
   let scaleY = rect.height ? (cnv.height / rect.height) : 1;
@@ -54,8 +56,8 @@ function drawHelper(e) {
   let mouseY = parseInt((e.clientY - rect.top) * scaleY);
 
   let prop = account1.size * account1.scale;
-  let newX = Math.floor(mouseX / prop) * prop;
-  let newY = Math.floor(mouseY / prop) * prop;
+  let newX = account1.snapToGrid(mouseX / account1.scale) * account1.scale;
+  let newY = account1.snapToGrid(mouseY / account1.scale) * account1.scale;
 
   //ctx.fillStyle = "rgb(200,0,0)";
   ctx.strokeStyle = "#FFA300";
@@ -104,7 +106,7 @@ function setImage2() {
 const sampleConfigs = [
   { size: 12, gap: 0 },
   { size: 16, gap: 0 },
-  { size: 16, gap: 2 }
+  { size: 16, gap: 1 }
 ];
 
 for (let i = 1; i <= 3; i++) {
@@ -119,6 +121,11 @@ for (let i = 1; i <= 3; i++) {
       }
       if (document.getElementById("tint-gap")) {
         document.getElementById("tint-gap").value = config.gap;
+      }
+      const tintTolerance = document.getElementById("tint-tolerance");
+      if (tintTolerance) {
+        tintTolerance.checked = i === 2;
+        tintTolerance.dispatchEvent(new Event("change", { bubbles: true }));
       }
       const reader = new Image();
       reader.addEventListener("load", () => account1.loadImage(reader));
