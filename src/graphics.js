@@ -1,11 +1,15 @@
 import Zoom from './components/zoom'
 import Palette from './components/palette'
 import Tint from './components/tint'
+import paletteData from './palettes.json'
+
+const DEFAULT_PALETTE = paletteData[0] || { colors: [] }
+const DEFAULT_COLOR = DEFAULT_PALETTE.colors[0] ? `#${DEFAULT_PALETTE.colors[0]}` : '#000000'
 
 export default class Graphics {
     constructor(name, canvas, top) {
         this.name = name;
-        this._color = "#FF0000";
+        this._color = DEFAULT_COLOR;
         this._componentMap = {};
         this._image = null;
         this._sourceImage = null;
@@ -212,7 +216,7 @@ export default class Graphics {
     }
 
     _parseColor(color) {
-        if (!color) return [255, 0, 0];
+        if (!color) return this._parseColor(DEFAULT_COLOR);
         if (typeof color === 'string' && color.startsWith('#')) {
             let hex = color.slice(1);
             if (hex.length === 3) {
@@ -229,7 +233,7 @@ export default class Graphics {
                 return [parseInt(match[0], 10), parseInt(match[1], 10), parseInt(match[2], 10)];
             }
         }
-        return [255, 0, 0];
+        return this._parseColor(DEFAULT_COLOR);
     }
   }
   

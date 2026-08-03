@@ -5,6 +5,7 @@ export default class Palette {
     this.eventHandler = {};
     this.window = window;
     this._palettes = paletteData;
+    this._hasPalettes = Array.isArray(this._palettes) && this._palettes.length > 0;
 
     this._els = {
       paletteList: element.getElementById("op") || element.getElementById("paletteList"),
@@ -12,8 +13,13 @@ export default class Palette {
       paletteGrid: element.getElementById("palette-grid")
     };
 
-    this._currentPalette = this._palettes[0] || { name: "Default", colors: [] };
+    this._currentPalette = this._hasPalettes ? this._palettes[0] : { name: "Default", colors: [] };
     this._selectedIndex = 0;
+
+    if (!this._hasPalettes) {
+      this._showEmptyState();
+      return;
+    }
 
     this._initDropdown();
     this._applyPalette(this._currentPalette);
@@ -83,7 +89,55 @@ export default class Palette {
   }
 
   _findPalette(name) {
+    if (!this._hasPalettes) {
+      return null;
+    }
+
     return this._palettes.find((palette) => palette.name === name) || this._palettes[0];
+  }
+
+  _showEmptyState() {
+    const document = this.window.document;
+    const modal = document.createElement("dialog");
+
+    modal.id = "palette-empty-modal";
+    modal.innerHTML = `
+      <h3 class="modal-header">No palettes available</h3>
+      <div class="modal-body">
+        <p>There are no palettes defined in <code>src/palettes.json</code>.</p>
+        <p>Add at least one palette to continue.</p>
+      </div>
+      <footer class="modal-footer">
+        <button id="palette-empty-ok" type="button">OK</button>
+      </footer>
+    `;
+
+    document.body.appendChild(modal);
+
+    const closeModal = () => {
+      if (modal.close) {
+        modal.close();
+      } else {
+        modal.removeAttribute("open");
+      }
+    };
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    const okButton = modal.querySelector("#palette-empty-ok");
+    if (okButton) {
+      okButton.addEventListener("click", closeModal);
+    }
+
+    if (modal.showModal) {
+      modal.showModal();
+    } else {
+      modal.setAttribute("open", "open");
+    }
   }
 
   addEvent(actions) {
