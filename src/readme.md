@@ -1,11 +1,41 @@
-Tint Bit
-A tile editor for 1bit pixel art.
+# Tint Bit
+A tile coloring editor for 1-bit pixel art.
 
 ## Features
-* Tint b/w tilesets with palette colors
-* Load any image jpeg, png or gif
-* Modify the size of the tile brush
-* Edit tilesets with gap space
-* Undo editions
-* Scale 1x, 2x and 3x
-* Save files applying scale
+* Tint B&W tilesets with custom palette colors
+* Import JPEG, PNG, or GIF files
+* Change tile brush sizes easily
+* Edit tilesets with custom gap spacing
+* Undo previous edits
+* View and export at 1x, 2x, or 3x scale
+
+## Web demo
+
+
+## Build from source
+
+### Clone the repo and install
+```
+git clone https://github.com/JuanSierra/tint-bit.git
+cd tint-bit
+
+npm install
+```
+
+### Execute the local server
+```
+npm run dev
+```
+
+> [!TIP]
+>  The web editor will be available at: http://localhost:3000
+
+## Credits
+
+* [dunjo](https://arks.itch.io/dungeon-platform-tileset) by Arks Digital
+* [fantasy-RPG set](https://github.com/marlersoft/zigwin32) by Clint Bellanger
+* [1-bit pack](https://kenney.nl/assets/1-bit-pack) by Kenney
+
+## License
+
+Tint Bit is licensed under the Apache License, see [LICENSE](LICENSE) for more information.
