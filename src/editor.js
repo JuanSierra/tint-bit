@@ -119,6 +119,13 @@ export default class Editor {
                     link.click();
                 }
             },
+
+            "CustomPalette": {
+                changeColor: function(color){
+                    console.log('custom palette color: ' + color);
+                    editor.execute(ChangePaletteCommand(color, editor.graphics));
+                }
+            },
         }
     }
 

@@ -1,10 +1,12 @@
 import paletteData from '../palettes.json';
 
+const STORAGE_KEY = 'tint-bit-custom-palettes';
+
 export default class Palette {
   constructor(window, element) {
     this.eventHandler = {};
     this.window = window;
-    this._palettes = paletteData;
+    this._palettes = this._getAllPalettes();
     this._hasPalettes = Array.isArray(this._palettes) && this._palettes.length > 0;
 
     this._els = {
@@ -140,6 +142,16 @@ export default class Palette {
     }
   }
 
+  _getAllPalettes() {
+    try {
+      const stored = this.window.localStorage.getItem(STORAGE_KEY);
+      const customPalettes = stored ? JSON.parse(stored) : [];
+      return [...paletteData, ...customPalettes];
+    } catch {
+      return paletteData;
+    }
+  }
+
   addEvent(actions) {
     this.actions = actions;
 
@@ -162,7 +174,13 @@ export default class Palette {
 
     if (this._els.paletteList) {
       this._els.paletteList.addEventListener("change", this._paletteChanged.bind(this));
+      this._els.paletteList.addEventListener("focus", () => this._refreshDropdownOptions());
     }
+  }
+
+  _refreshDropdownOptions() {
+    this._palettes = this._getAllPalettes();
+    this._initDropdown();
   }
 
   _paletteChanged(event) {

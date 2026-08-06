@@ -3,19 +3,21 @@ import Upload from "./ui/upload";
 import Zoom from "./ui/zoom";
 import Tint from "./ui/tint";
 import Download from "./ui/download";
+import CustomPalette from "./ui/customPalette";
 
 const SUB_UI_COMPONENT = {
   Palette,
   Upload,
   Zoom,
   Tint,
-  Download
+  Download,
+  CustomPalette
 };
 
 export default class UI {
   constructor() {
     this._options = {
-      menu: ["Palette", "Upload", "Zoom", "Tint", "Download"],
+      menu: ["Palette", "CustomPalette", "Upload", "Zoom", "Tint", "Download"],
     };
   }
 

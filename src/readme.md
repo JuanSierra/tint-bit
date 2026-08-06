@@ -30,6 +30,12 @@ npm run dev
 > [!TIP]
 >  The web editor will be available at: http://localhost:3000
 
+### Customize base palettes
+File src/palettes.json can be update to define any set of color palettes. You need to follow the following structure:
+```json
+{"name":"Palette Name","author":"Artist","colors":["0aff2f","ff2f0a","2f0aff"]}
+```
+
 ## Credits
 
 * [dunjo](https://arks.itch.io/dungeon-platform-tileset) by Arks Digital

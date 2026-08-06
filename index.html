@@ -75,6 +75,7 @@
 					<div id="palette-grid"></div>
 				</div>
 			</div>
+			<button id="custom-palette-btn" style="margin-top: 8px;">Custom Palettes</button>
 			<spacer></spacer>
 			<label class="container">With scaling
 				<input type="checkbox" id="with-scaling">
@@ -107,6 +108,40 @@
 		</div>
 		<footer class="modal-footer">
 			<button id="ok" type="button" value="true">OK</button>
+		</footer>
+	</dialog>
+
+	<dialog id="custom-palette-modal">
+		<h3 class="modal-header">Custom Palettes</h3>
+		<div class="modal-body">
+			<vstack spacing=s>
+				<div>
+					<label for="cp-name">Name:</label>
+					<input type="text" id="cp-name" placeholder="Palette Name" stretch>
+				</div>
+
+				<hstack spacing=s align-y=top>
+
+					<vstack spacing=s>
+						<div>
+							<label for="cp-colors" style="font-size: 0.9em; display: block; margin-bottom: 4px;">Colors
+								(comma-separated hex):</label>
+							<textarea id="cp-colors" rows="3" placeholder="#FF0000, #00FF00, #0000FF"
+								></textarea>
+						</div>
+						<div id="cp-list" class="cp-list"></div>
+						  <spacer></spacer>
+					</vstack>
+					<div>
+						<div id="cp-preview" class="cp-preview"></div>
+					</div>
+				</hstack>
+
+			</vstack>
+		</div>
+		<footer class="modal-footer">
+			<button id="cp-add" type="button">Add Palette</button>
+			<button id="cp-remove" type="button">Remove</button>
 		</footer>
 	</dialog>
 
