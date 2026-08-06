@@ -213,8 +213,8 @@ export default class CustomPalette {
     palette.colors.forEach((color) => {
       const swatch = this.window.document.createElement('div');
       swatch.className = 'cp-preview-swatch';
-      swatch.style.backgroundColor = color;
-      swatch.title = color;
+      swatch.style.backgroundColor = '#' + color;
+      swatch.title = '#' + color;
 
       const wrapper = this.window.document.createElement('div');
       wrapper.className = 'cp-preview-item';
@@ -232,20 +232,25 @@ export default class CustomPalette {
       .split(',')
       .map(c => c.trim())
       .filter(c => c.length > 0)
-      .map(c => {
-        if (!c.startsWith('#')) c = '#' + c;
-        return c;
-      })
-      .filter(c => /^#[0-9A-Fa-f]{6}$/.test(c));
+      .map(c => c.replace(/^#/, ''))
+      .filter(c => /^[0-9A-Fa-f]{6}$/.test(c));
   }
 
   _addPalette() {
-    this._els.paletteNameInput.value = 'New Palette';
-    this._els.colorsTextarea.value = '#ff0000, #00ff00, #0000ff';
+    const newPalette = {
+      name: 'New Palette',
+      colors: ['ff0000', '00ff00', '0000ff']
+    };
 
-    this._selectedIndex = -1;
+    this._customPalettes.push(newPalette);
+    this._saveCustomPalettes();
+
+    this._selectedIndex = this._customPalettes.length - 1;
+    this._els.paletteNameInput.value = newPalette.name;
+    this._els.colorsTextarea.value = newPalette.colors.join(', ');
+
     this._renderList();
-    this._renderPreview({ name: 'New Palette', colors: ['#ff0000', '#00ff00', '#0000ff'] });
+    this._renderPreview(newPalette);
   }
 
   _removePalette() {
