@@ -41,7 +41,7 @@ export default class CustomPalette {
   }
 
   _getAllPalettes() {
-    return [...paletteData, ...this._customPalettes];
+    return [...this._customPalettes, ...paletteData];
   }
 
   _init() {
@@ -84,6 +84,12 @@ export default class CustomPalette {
     if (this._els.colorsTextarea) {
       this._els.colorsTextarea.addEventListener('input', () => this._liveUpdate());
     }
+
+    if (this._els.customPaletteModal) {
+      this._els.customPaletteModal.addEventListener('close', () => {
+        this.window.dispatchEvent(new CustomEvent('custom-palette-changed'));
+      });
+    }
   }
 
   _showModal() {
@@ -97,6 +103,7 @@ export default class CustomPalette {
         modal.close();
       } else {
         modal.removeAttribute('open');
+        this.window.dispatchEvent(new CustomEvent('custom-palette-changed'));
       }
     };
 

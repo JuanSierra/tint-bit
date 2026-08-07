@@ -219,7 +219,7 @@ dialog + .backdrop {
 }
 
 .cp-list {
-  max-height: 200px;
+  max-height: 100px;
   overflow-y: auto;
   border: 1px solid #ccc;
   padding: 4px;
@@ -260,7 +260,7 @@ dialog + .backdrop {
 }
 
 .cp-preview {
-  max-height: 200px;
+  max-height: 230px;
   overflow-y: auto;
   overflow-x: hidden;
 }

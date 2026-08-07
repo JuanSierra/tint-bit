@@ -16,6 +16,7 @@ export default class Palette {
     };
 
     this._currentPalette = this._hasPalettes ? this._palettes[0] : { name: "Default", colors: [] };
+    this._currentPaletteIndex = 0;
     this._selectedIndex = 0;
 
     if (!this._hasPalettes) {
@@ -146,7 +147,7 @@ export default class Palette {
     try {
       const stored = this.window.localStorage.getItem(STORAGE_KEY);
       const customPalettes = stored ? JSON.parse(stored) : [];
-      return [...paletteData, ...customPalettes];
+      return [...customPalettes, ...paletteData];
     } catch {
       return paletteData;
     }
@@ -176,11 +177,47 @@ export default class Palette {
       this._els.paletteList.addEventListener("change", this._paletteChanged.bind(this));
       this._els.paletteList.addEventListener("focus", () => this._refreshDropdownOptions());
     }
+
+    this.window.addEventListener("custom-palette-changed", this._refreshDropdownOptions.bind(this));
   }
 
   _refreshDropdownOptions() {
+    const previousPaletteName = this._currentPalette?.name;
+    const previousPaletteIndex = this._currentPaletteIndex ?? 0;
+
     this._palettes = this._getAllPalettes();
+    this._hasPalettes = Array.isArray(this._palettes) && this._palettes.length > 0;
+
+    if (!this._hasPalettes) {
+      return;
+    }
+
+    const palette =
+      (previousPaletteName && this._palettes.find((item) => item.name === previousPaletteName)) ||
+      this._palettes[previousPaletteIndex] ||
+      this._palettes[0];
+
+    if (!palette) {
+      return;
+    }
+
+    this._currentPalette = palette;
+    this._currentPaletteIndex = this._palettes.indexOf(palette);
+    this._selectedIndex = Math.min(this._selectedIndex, palette.colors.length - 1);
+    if (this._selectedIndex < 0) {
+      this._selectedIndex = 0;
+    }
+
     this._initDropdown();
+    this._applyPalette(palette);
+
+    if (this.actions && typeof this.actions.updatePalette === "function") {
+      this.actions.updatePalette(palette.name);
+    }
+
+    if (this.actions && typeof this.actions.changeColor === "function" && palette.colors[this._selectedIndex]) {
+      this.actions.changeColor(`#${palette.colors[this._selectedIndex]}`);
+    }
   }
 
   _paletteChanged(event) {
@@ -194,6 +231,7 @@ export default class Palette {
     }
 
     this._currentPalette = palette;
+    this._currentPaletteIndex = this._palettes.findIndex((item) => item.name === palette.name);
     this._selectedIndex = 0;
     this._applyPalette(palette);
 
